@@ -15,16 +15,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
 } from "../shared/ui"
 import Button from "../shared/ui/button"
 import Input from "../shared/ui/input"
 import Textarea from "../shared/ui/textArea"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../shared/ui/table"
 
 const PostsManager = () => {
   const navigate = useNavigate()
