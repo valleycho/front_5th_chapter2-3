@@ -8,6 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
+import PostDetailDialog from "../../../widgets/posts/ui/PostDetailDialog"
+import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 const PostsManager = () => {
   const navigate = useNavigate()
@@ -233,41 +235,6 @@ const PostsManager = () => {
     }
   }
 
-  // 댓글 삭제
-  const deleteComment = async (id, postId) => {
-    try {
-      await fetch(`/api/comments/${id}`, {
-        method: "DELETE",
-      })
-      setComments((prev) => ({
-        ...prev,
-        [postId]: prev[postId].filter((comment) => comment.id !== id),
-      }))
-    } catch (error) {
-      console.error("댓글 삭제 오류:", error)
-    }
-  }
-
-  // 댓글 좋아요
-  const likeComment = async (id, postId) => {
-    try {
-      const response = await fetch(`/api/comments/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ likes: comments[postId].find((c) => c.id === id).likes + 1 }),
-      })
-      const data = await response.json()
-      setComments((prev) => ({
-        ...prev,
-        [postId]: prev[postId].map((comment) =>
-          comment.id === data.id ? { ...data, likes: comment.likes + 1 } : comment,
-        ),
-      }))
-    } catch (error) {
-      console.error("댓글 좋아요 오류:", error)
-    }
-  }
-
   // 게시물 상세 보기
   const openPostDetail = (post) => {
     setSelectedPost(post)
@@ -310,21 +277,6 @@ const PostsManager = () => {
     setSelectedTag(params.get("tag") || "")
   }, [location.search])
 
-  // 하이라이트 함수 추가
-  const highlightText = (text: string, highlight: string) => {
-    if (!text) return null
-    if (!highlight.trim()) {
-      return <span>{text}</span>
-    }
-    const regex = new RegExp(`(${highlight})`, "gi")
-    const parts = text.split(regex)
-    return (
-      <span>
-        {parts.map((part, i) => (regex.test(part) ? <mark key={i}>{part}</mark> : <span key={i}>{part}</span>))}
-      </span>
-    )
-  }
-
   // 게시물 테이블 렌더링
   const renderPostTable = () => (
     <Table>
@@ -343,7 +295,9 @@ const PostsManager = () => {
             <TableCell>{post.id}</TableCell>
             <TableCell>
               <div className="space-y-1">
-                <div>{highlightText(post.title, searchQuery)}</div>
+                <div>
+                  <HighlightText text={post.title} highlight={searchQuery} />
+                </div>
 
                 <div className="flex flex-wrap gap-1">
                   {post.tags?.map((tag) => (
@@ -403,54 +357,6 @@ const PostsManager = () => {
         ))}
       </TableBody>
     </Table>
-  )
-
-  // 댓글 렌더링
-  const renderComments = (postId) => (
-    <div className="mt-2">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-semibold">댓글</h3>
-        <Button
-          size="sm"
-          onClick={() => {
-            setNewComment((prev) => ({ ...prev, postId }))
-            setShowAddCommentDialog(true)
-          }}
-        >
-          <Plus className="w-3 h-3 mr-1" />
-          댓글 추가
-        </Button>
-      </div>
-      <div className="space-y-1">
-        {comments[postId]?.map((comment) => (
-          <div key={comment.id} className="flex items-center justify-between text-sm border-b pb-1">
-            <div className="flex items-center space-x-2 overflow-hidden">
-              <span className="font-medium truncate">{comment.user.username}:</span>
-              <span className="truncate">{highlightText(comment.body, searchQuery)}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Button variant="ghost" size="sm" onClick={() => likeComment(comment.id, postId)}>
-                <ThumbsUp className="w-3 h-3" />
-                <span className="ml-1 text-xs">{comment.likes}</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setSelectedComment(comment)
-                  setShowEditCommentDialog(true)
-                }}
-              >
-                <Edit2 className="w-3 h-3" />
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => deleteComment(comment.id, postId)}>
-                <Trash2 className="w-3 h-3" />
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
   )
 
   return (
@@ -640,17 +546,17 @@ const PostsManager = () => {
       </Dialog>
 
       {/* 게시물 상세 보기 대화상자 */}
-      <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>{highlightText(selectedPost?.title, searchQuery)}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p>{highlightText(selectedPost?.body, searchQuery)}</p>
-            {renderComments(selectedPost?.id)}
-          </div>
-        </DialogContent>
-      </Dialog>
+      <PostDetailDialog
+        showPostDetailDialog={showPostDetailDialog}
+        setShowPostDetailDialog={setShowPostDetailDialog}
+        selectedPost={selectedPost}
+        searchQuery={searchQuery}
+        setComments={setComments}
+        setNewComment={setNewComment}
+        setShowAddCommentDialog={setShowAddCommentDialog}
+        setSelectedComment={setSelectedComment}
+        setShowEditCommentDialog={setShowEditCommentDialog}
+      />
 
       {/* 사용자 모달 */}
       <Dialog open={showUserModal} onOpenChange={setShowUserModal}>
