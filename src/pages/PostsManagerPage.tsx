@@ -21,10 +21,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Textarea,
 } from "../shared/ui"
 import Button from "../shared/ui/button"
 import Input from "../shared/ui/input"
+import Textarea from "../shared/ui/textArea"
 
 const PostsManager = () => {
   const navigate = useNavigate()
