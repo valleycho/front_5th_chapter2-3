@@ -1,12 +1,7 @@
-import { forwardRef } from "react"
+import { DialogPortal, DialogOverlay } from "./Dialog"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { forwardRef } from "react"
 import { X } from "lucide-react"
-
-// 대화상자 컴포넌트
-export const Dialog = DialogPrimitive.Root
-export const DialogTrigger = DialogPrimitive.Trigger
-export const DialogPortal = DialogPrimitive.Portal
-export const DialogOverlay = DialogPrimitive.Overlay
 
 export const DialogContent = forwardRef(({ className, children, ...props }, ref) => (
   <DialogPortal>
@@ -25,17 +20,3 @@ export const DialogContent = forwardRef(({ className, children, ...props }, ref)
   </DialogPortal>
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
-
-export const DialogHeader = ({ className, ...props }) => (
-  <div className={`flex flex-col space-y-1.5 text-center sm:text-left ${className}`} {...props} />
-)
-DialogHeader.displayName = "DialogHeader"
-
-export const DialogTitle = forwardRef(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={`text-lg font-semibold leading-none tracking-tight ${className}`}
-    {...props}
-  />
-))
-DialogTitle.displayName = DialogPrimitive.Title.displayName
