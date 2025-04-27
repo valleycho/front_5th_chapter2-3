@@ -1,24 +1,38 @@
-import { Edit2 } from "lucide-react"
 import Button from "../../../shared/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
+import Textarea from "../../../shared/ui/textArea"
 
 interface EditCommentDialogProps {
-  comment: any
-  setSelectedComment: (comment: any) => void
+  showEditCommentDialog: boolean
   setShowEditCommentDialog: (show: boolean) => void
+  selectedComment: any
+  setSelectedComment: (comment: any) => void
+  updateComment: () => void
 }
 
-const EditCommentDialog = ({ comment, setSelectedComment, setShowEditCommentDialog }: EditCommentDialogProps) => {
+const EditCommentDialog = ({
+  showEditCommentDialog,
+  setShowEditCommentDialog,
+  selectedComment,
+  setSelectedComment,
+  updateComment,
+}: EditCommentDialogProps) => {
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => {
-        setSelectedComment(comment)
-        setShowEditCommentDialog(true)
-      }}
-    >
-      <Edit2 className="w-3 h-3" />
-    </Button>
+    <Dialog open={showEditCommentDialog} onOpenChange={setShowEditCommentDialog}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>댓글 수정</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <Textarea
+            placeholder="댓글 내용"
+            value={selectedComment?.body || ""}
+            onChange={(e) => setSelectedComment({ ...selectedComment, body: e.target.value })}
+          />
+          <Button onClick={updateComment}>댓글 업데이트</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }
 

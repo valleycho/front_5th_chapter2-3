@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../share
 import PostDetailDialog from "../../../widgets/posts/ui/PostDetailDialog"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import UserInfoDialog from "../../../widgets/user/ui/UserInfoDialog"
+import EditCommentDialog from "../../../features/comments/ui/EditCommentDialog"
 
 const PostsManager = () => {
   const navigate = useNavigate()
@@ -530,21 +531,13 @@ const PostsManager = () => {
       </Dialog>
 
       {/* 댓글 수정 대화상자 */}
-      <Dialog open={showEditCommentDialog} onOpenChange={setShowEditCommentDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>댓글 수정</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Textarea
-              placeholder="댓글 내용"
-              value={selectedComment?.body || ""}
-              onChange={(e) => setSelectedComment({ ...selectedComment, body: e.target.value })}
-            />
-            <Button onClick={updateComment}>댓글 업데이트</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <EditCommentDialog
+        showEditCommentDialog={showEditCommentDialog}
+        setShowEditCommentDialog={setShowEditCommentDialog}
+        selectedComment={selectedComment}
+        setSelectedComment={setSelectedComment}
+        updateComment={updateComment}
+      />
 
       {/* 게시물 상세 보기 대화상자 */}
       <PostDetailDialog
