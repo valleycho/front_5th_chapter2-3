@@ -1,4 +1,4 @@
-import AddComment from "../../../features/comments/ui/AddComment"
+import AddCommentDialogButton from "../../../features/comments/ui/AddCommentDialogButton"
 import DeleteComment from "../../../features/comments/ui/DeleteComment"
 import EditCommentDialogButton from "../../../features/comments/ui/EditCommentDialogButton"
 import LikeComment from "../../../features/comments/ui/LikeComment"
@@ -62,7 +62,14 @@ const CommentsSection = ({
 
   return (
     <div className="mt-2">
-      <AddComment postId={postId} setNewComment={setNewComment} setShowAddCommentDialog={setShowAddCommentDialog} />
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-sm font-semibold">댓글</h3>
+        <AddCommentDialogButton
+          postId={postId}
+          setNewComment={setNewComment}
+          setShowAddCommentDialog={setShowAddCommentDialog}
+        />
+      </div>
       <div className="space-y-1">
         {comments[postId]?.map((comment) => (
           <div key={comment.id} className="flex items-center justify-between text-sm border-b pb-1">
