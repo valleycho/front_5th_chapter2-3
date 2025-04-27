@@ -551,6 +551,7 @@ const PostsManager = () => {
         setShowPostDetailDialog={setShowPostDetailDialog}
         selectedPost={selectedPost}
         searchQuery={searchQuery}
+        comments={comments}
         setComments={setComments}
         setNewComment={setNewComment}
         setShowAddCommentDialog={setShowAddCommentDialog}

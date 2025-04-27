@@ -7,6 +7,7 @@ interface PostDetailDialogProps {
   setShowPostDetailDialog: (show: boolean) => void
   selectedPost: any
   searchQuery: string
+  comments: unknown[]
   setComments: (comments: any) => void
   setNewComment: (comment: any) => void
   setShowAddCommentDialog: (show: boolean) => void
@@ -19,6 +20,7 @@ const PostDetailDialog = ({
   setShowPostDetailDialog,
   selectedPost,
   searchQuery,
+  comments,
   setComments,
   setNewComment,
   setShowAddCommentDialog,
@@ -40,6 +42,7 @@ const PostDetailDialog = ({
           <CommentsSection
             postId={selectedPost?.id}
             searchQuery={searchQuery}
+            comments={comments}
             setComments={setComments}
             setNewComment={setNewComment}
             setShowAddCommentDialog={setShowAddCommentDialog}

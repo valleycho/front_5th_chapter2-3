@@ -5,6 +5,7 @@ import LikeComment from "../../../features/comments/ui/LikeComment"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 interface CommentsSectionProps {
+  comments: unknown[]
   postId: number
   searchQuery: string
   setComments: (comments: any) => void
@@ -15,6 +16,7 @@ interface CommentsSectionProps {
 }
 
 const CommentsSection = ({
+  comments,
   postId,
   searchQuery,
   setComments,
