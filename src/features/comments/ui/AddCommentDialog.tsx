@@ -2,15 +2,15 @@ import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Textarea from "../../../shared/ui/textArea"
+import { useAddNewCommentStore } from "../model/useAddNewComment"
 
 interface AddCommentDialogProps {
-  newComment: any
-  setNewComment: (comment: any) => void
   addComment: () => void
 }
 
-const AddCommentDialog = ({ newComment, setNewComment, addComment }: AddCommentDialogProps) => {
+const AddCommentDialog = ({ addComment }: AddCommentDialogProps) => {
   const { showAddCommentDialog, setShowAddCommentDialog } = useDialogStore()
+  const { newComment, setNewComment } = useAddNewCommentStore()
 
   return (
     <Dialog open={showAddCommentDialog} onOpenChange={setShowAddCommentDialog}>

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
@@ -5,13 +6,30 @@ import Input from "../../../shared/ui/input"
 import Textarea from "../../../shared/ui/textArea"
 
 interface AddPostDialogProps {
-  newPost: any
-  setNewPost: (post: any) => void
-  addPost: () => void
+  posts: any[]
+  setPosts: (posts: any[]) => void
 }
 
-const AddPostDialog = ({ newPost, setNewPost, addPost }: AddPostDialogProps) => {
+const AddPostDialog = ({ posts, setPosts }: AddPostDialogProps) => {
   const { showAddDialog, setShowAddDialog } = useDialogStore()
+
+  const [newPost, setNewPost] = useState({ title: "", body: "", userId: 1 })
+
+  const addPost = async () => {
+    try {
+      const response = await fetch("/api/posts/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPost),
+      })
+      const data = await response.json()
+      setPosts([data, ...posts])
+      setShowAddDialog(false)
+      setNewPost({ title: "", body: "", userId: 1 })
+    } catch (error) {
+      console.error("게시물 추가 오류:", error)
+    }
+  }
 
   return (
     <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>

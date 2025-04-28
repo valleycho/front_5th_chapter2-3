@@ -4,17 +4,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../share
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import CommentsSection from "../../comments/ui/CommentsSection"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewComment"
 
 interface PostDetailDialogProps {
   comments: unknown[]
   setComments: (comments: any) => void
-  setNewComment: (comment: any) => void
 }
 
-const PostDetailDialog = ({ comments, setComments, setNewComment }: PostDetailDialogProps) => {
+const PostDetailDialog = ({ comments, setComments }: PostDetailDialogProps) => {
   const { searchQuery } = useQueryParams()
   const { showPostDetailDialog, setShowPostDetailDialog } = useDialogStore()
   const { selectedPost } = usePostsStore()
+  const { setNewComment } = useAddNewCommentStore()
 
   return (
     <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>

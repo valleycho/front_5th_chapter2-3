@@ -19,6 +19,7 @@ import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
 import { useUsers } from "../../../entities/users/model/useUsers"
+import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewComment"
 
 const PostsManager = () => {
   const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
@@ -35,14 +36,13 @@ const PostsManager = () => {
   const { selectedComment } = useCommentsStore()
   const { selectedPost, setSelectedPost } = usePostsStore()
   const { setSelectedUser } = useUsers()
+  const { newComment, setNewComment } = useAddNewCommentStore()
 
   // 상태 관리
-  const [posts, setPosts] = useState([])
-  const [total, setTotal] = useState(0)
-  const [newPost, setNewPost] = useState({ title: "", body: "", userId: 1 })
   const [loading, setLoading] = useState(false)
+  const [posts, setPosts] = useState([])
   const [comments, setComments] = useState({})
-  const [newComment, setNewComment] = useState({ body: "", postId: null, userId: 1 })
+  const [total, setTotal] = useState(0)
 
   // 게시물 가져오기
   const fetchPosts = () => {
@@ -100,23 +100,6 @@ const PostsManager = () => {
       console.error("태그별 게시물 가져오기 오류:", error)
     }
     setLoading(false)
-  }
-
-  // 게시물 추가
-  const addPost = async () => {
-    try {
-      const response = await fetch("/api/posts/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPost),
-      })
-      const data = await response.json()
-      setPosts([data, ...posts])
-      setShowAddDialog(false)
-      setNewPost({ title: "", body: "", userId: 1 })
-    } catch (error) {
-      console.error("게시물 추가 오류:", error)
-    }
   }
 
   // 게시물 업데이트
@@ -251,13 +234,13 @@ const PostsManager = () => {
         </div>
       </CardContent>
 
-      <AddPostDialog newPost={newPost} setNewPost={setNewPost} addPost={addPost} />
+      <AddPostDialog posts={posts} setPosts={setPosts} />
       <EditPostDialog updatePost={updatePost} />
 
-      <AddCommentDialog newComment={newComment} setNewComment={setNewComment} addComment={addComment} />
+      <AddCommentDialog addComment={addComment} />
       <EditCommentDialog updateComment={updateComment} />
 
-      <PostDetailDialog comments={comments} setComments={setComments} setNewComment={setNewComment} />
+      <PostDetailDialog comments={comments} setComments={setComments} />
 
       <UserInfoDialog />
     </Card>
