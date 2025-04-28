@@ -2,26 +2,20 @@ import { Edit2, MessageSquare, ThumbsDown, ThumbsUp, Trash2 } from "lucide-react
 import Button from "../../../shared/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../shared/ui/table"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
-import { useQueryParams } from "../../../shared/hooks/useQueryParams"
+import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useDialogStore } from "../../../shared/lib/useDialogStore"
 
 interface PostTableProps {
   posts: any[]
   openUserModal: (user: any) => void
   openPostDetail: (post: any) => void
   setSelectedPost: (post: any) => void
-  setShowEditDialog: (show: boolean) => void
   setPosts: (posts: any[]) => void
 }
 
-const PostTable = ({
-  posts,
-  openUserModal,
-  openPostDetail,
-  setSelectedPost,
-  setShowEditDialog,
-  setPosts,
-}: PostTableProps) => {
+const PostTable = ({ posts, openUserModal, openPostDetail, setSelectedPost, setPosts }: PostTableProps) => {
   const { selectedTag, setSelectedTag, searchQuery, updateQueryParams } = useQueryParams()
+  const { setShowEditDialog } = useDialogStore()
 
   const deletePost = async (id: number) => {
     try {

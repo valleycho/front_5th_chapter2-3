@@ -1,17 +1,18 @@
+import { useDialogStore } from "../../../shared/lib/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Input from "../../../shared/ui/input"
 import Textarea from "../../../shared/ui/textArea"
 
 interface AddPostDialogProps {
-  showAddDialog: boolean
-  setShowAddDialog: (show: boolean) => void
   newPost: any
   setNewPost: (post: any) => void
   addPost: () => void
 }
 
-const AddPostDialog = ({ showAddDialog, setShowAddDialog, newPost, setNewPost, addPost }: AddPostDialogProps) => {
+const AddPostDialog = ({ newPost, setNewPost, addPost }: AddPostDialogProps) => {
+  const { showAddDialog, setShowAddDialog } = useDialogStore()
+
   return (
     <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
       <DialogContent>

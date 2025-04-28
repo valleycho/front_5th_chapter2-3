@@ -1,6 +1,6 @@
 import { Search } from "lucide-react"
 import Input from "../../../shared/ui/input"
-import { useQueryParams } from "../../../shared/hooks/useQueryParams"
+import { useQueryParams } from "../../../shared/lib/useQueryParams"
 
 interface SearchPostProps {
   fetchPosts: () => void

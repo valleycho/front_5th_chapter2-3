@@ -14,25 +14,29 @@ import SortOrderSelect from "../../../features/posts/ui/SortOrderSelect"
 import SortBySelect from "../../../features/posts/ui/SortBySelect"
 import TagSelect from "../../../features/posts/ui/TagSelect"
 import SearchPost from "../../../features/posts/ui/SearchPost"
-import { useQueryParams } from "../../../shared/hooks/useQueryParams"
+import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useDialogStore } from "../../../shared/lib/useDialogStore"
 
 const PostsManager = () => {
   const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
+
+  const {
+    setShowAddDialog,
+    setShowEditDialog,
+    setShowAddCommentDialog,
+    setShowEditCommentDialog,
+    setShowPostDetailDialog,
+  } = useDialogStore()
 
   // 상태 관리
   const [posts, setPosts] = useState([])
   const [total, setTotal] = useState(0)
   const [selectedPost, setSelectedPost] = useState(null)
-  const [showAddDialog, setShowAddDialog] = useState(false)
-  const [showEditDialog, setShowEditDialog] = useState(false)
   const [newPost, setNewPost] = useState({ title: "", body: "", userId: 1 })
   const [loading, setLoading] = useState(false)
   const [comments, setComments] = useState({})
   const [selectedComment, setSelectedComment] = useState(null)
   const [newComment, setNewComment] = useState({ body: "", postId: null, userId: 1 })
-  const [showAddCommentDialog, setShowAddCommentDialog] = useState(false)
-  const [showEditCommentDialog, setShowEditCommentDialog] = useState(false)
-  const [showPostDetailDialog, setShowPostDetailDialog] = useState(false)
   const [showUserModal, setShowUserModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
 
@@ -238,7 +242,6 @@ const PostsManager = () => {
               openUserModal={openUserModal}
               openPostDetail={openPostDetail}
               setSelectedPost={setSelectedPost}
-              setShowEditDialog={setShowEditDialog}
               setPosts={setPosts}
             />
           )}
@@ -249,36 +252,16 @@ const PostsManager = () => {
       </CardContent>
 
       {/* 게시물 추가 대화상자 */}
-      <AddPostDialog
-        showAddDialog={showAddDialog}
-        setShowAddDialog={setShowAddDialog}
-        newPost={newPost}
-        setNewPost={setNewPost}
-        addPost={addPost}
-      />
+      <AddPostDialog newPost={newPost} setNewPost={setNewPost} addPost={addPost} />
 
       {/* 게시물 수정 대화상자 */}
-      <EditPostDialog
-        showEditDialog={showEditDialog}
-        setShowEditDialog={setShowEditDialog}
-        selectedPost={selectedPost}
-        setSelectedPost={setSelectedPost}
-        updatePost={updatePost}
-      />
+      <EditPostDialog selectedPost={selectedPost} setSelectedPost={setSelectedPost} updatePost={updatePost} />
 
       {/* 댓글 추가 대화상자 */}
-      <AddCommentDialog
-        showAddCommentDialog={showAddCommentDialog}
-        setShowAddCommentDialog={setShowAddCommentDialog}
-        newComment={newComment}
-        setNewComment={setNewComment}
-        addComment={addComment}
-      />
+      <AddCommentDialog newComment={newComment} setNewComment={setNewComment} addComment={addComment} />
 
       {/* 댓글 수정 대화상자 */}
       <EditCommentDialog
-        showEditCommentDialog={showEditCommentDialog}
-        setShowEditCommentDialog={setShowEditCommentDialog}
         selectedComment={selectedComment}
         setSelectedComment={setSelectedComment}
         updateComment={updateComment}
@@ -286,15 +269,11 @@ const PostsManager = () => {
 
       {/* 게시물 상세 보기 대화상자 */}
       <PostDetailDialog
-        showPostDetailDialog={showPostDetailDialog}
-        setShowPostDetailDialog={setShowPostDetailDialog}
         selectedPost={selectedPost}
         comments={comments}
         setComments={setComments}
         setNewComment={setNewComment}
-        setShowAddCommentDialog={setShowAddCommentDialog}
         setSelectedComment={setSelectedComment}
-        setShowEditCommentDialog={setShowEditCommentDialog}
       />
 
       {/* 사용자 모달 */}

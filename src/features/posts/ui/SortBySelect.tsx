@@ -1,4 +1,4 @@
-import { useQueryParams } from "../../../shared/hooks/useQueryParams"
+import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 
 const SortBySelect = () => {

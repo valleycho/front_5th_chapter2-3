@@ -1,4 +1,4 @@
-import { useQueryParams } from "../../hooks/useQueryParams"
+import { useQueryParams } from "../../lib/useQueryParams"
 import Button from "../button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select"
 

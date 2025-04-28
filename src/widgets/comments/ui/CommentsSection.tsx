@@ -2,6 +2,7 @@ import AddCommentDialogButton from "../../../features/comments/ui/AddCommentDial
 import DeleteComment from "../../../features/comments/ui/DeleteComment"
 import EditCommentDialogButton from "../../../features/comments/ui/EditCommentDialogButton"
 import LikeComment from "../../../features/comments/ui/LikeComment"
+import { useDialogStore } from "../../../shared/lib/useDialogStore"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 interface CommentsSectionProps {
@@ -10,9 +11,7 @@ interface CommentsSectionProps {
   searchQuery: string
   setComments: (comments: any) => void
   setNewComment: (comment: any) => void
-  setShowAddCommentDialog: (show: boolean) => void
   setSelectedComment: (comment: any) => void
-  setShowEditCommentDialog: (show: boolean) => void
 }
 
 const CommentsSection = ({
@@ -21,10 +20,10 @@ const CommentsSection = ({
   searchQuery,
   setComments,
   setNewComment,
-  setShowAddCommentDialog,
   setSelectedComment,
-  setShowEditCommentDialog,
 }: CommentsSectionProps) => {
+  const { setShowAddCommentDialog, setShowEditCommentDialog } = useDialogStore()
+
   // 댓글 삭제
   const deleteComment = async (id, postId) => {
     try {

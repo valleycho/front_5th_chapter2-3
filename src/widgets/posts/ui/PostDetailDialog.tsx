@@ -1,32 +1,26 @@
-import { useQueryParams } from "../../../shared/hooks/useQueryParams"
+import { useDialogStore } from "../../../shared/lib/useDialogStore"
+import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import CommentsSection from "../../comments/ui/CommentsSection"
 
 interface PostDetailDialogProps {
-  showPostDetailDialog: boolean
-  setShowPostDetailDialog: (show: boolean) => void
   selectedPost: any
   comments: unknown[]
   setComments: (comments: any) => void
   setNewComment: (comment: any) => void
-  setShowAddCommentDialog: (show: boolean) => void
   setSelectedComment: (comment: any) => void
-  setShowEditCommentDialog: (show: boolean) => void
 }
 
 const PostDetailDialog = ({
-  showPostDetailDialog,
-  setShowPostDetailDialog,
   selectedPost,
   comments,
   setComments,
   setNewComment,
-  setShowAddCommentDialog,
   setSelectedComment,
-  setShowEditCommentDialog,
 }: PostDetailDialogProps) => {
   const { searchQuery } = useQueryParams()
+  const { showPostDetailDialog, setShowPostDetailDialog } = useDialogStore()
 
   return (
     <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>
@@ -46,9 +40,7 @@ const PostDetailDialog = ({
             comments={comments}
             setComments={setComments}
             setNewComment={setNewComment}
-            setShowAddCommentDialog={setShowAddCommentDialog}
             setSelectedComment={setSelectedComment}
-            setShowEditCommentDialog={setShowEditCommentDialog}
           />
         </div>
       </DialogContent>

@@ -1,23 +1,18 @@
+import { useDialogStore } from "../../../shared/lib/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Input from "../../../shared/ui/input"
 import Textarea from "../../../shared/ui/textArea"
 
 interface EditPostDialogProps {
-  showEditDialog: boolean
-  setShowEditDialog: (show: boolean) => void
   selectedPost: any
   setSelectedPost: (post: any) => void
   updatePost: () => void
 }
 
-const EditPostDialog = ({
-  showEditDialog,
-  setShowEditDialog,
-  selectedPost,
-  setSelectedPost,
-  updatePost,
-}: EditPostDialogProps) => {
+const EditPostDialog = ({ selectedPost, setSelectedPost, updatePost }: EditPostDialogProps) => {
+  const { showEditDialog, setShowEditDialog } = useDialogStore()
+
   return (
     <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
       <DialogContent>
