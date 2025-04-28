@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { Plus } from "lucide-react"
-import { useLocation, useNavigate } from "react-router-dom"
 import Button from "../../../shared/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/card"
 import PostDetailDialog from "../../../widgets/posts/ui/PostDetailDialog"
@@ -15,26 +14,19 @@ import SortOrderSelect from "../../../features/posts/ui/SortOrderSelect"
 import SortBySelect from "../../../features/posts/ui/SortBySelect"
 import TagSelect from "../../../features/posts/ui/TagSelect"
 import SearchPost from "../../../features/posts/ui/SearchPost"
+import { useQueryParams } from "../../../shared/hooks/useQueryParams"
 
 const PostsManager = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
+  const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
 
   // 상태 관리
   const [posts, setPosts] = useState([])
   const [total, setTotal] = useState(0)
-  const [skip, setSkip] = useState(parseInt(queryParams.get("skip") || "0"))
-  const [limit, setLimit] = useState(parseInt(queryParams.get("limit") || "10"))
-  const [searchQuery, setSearchQuery] = useState(queryParams.get("search") || "")
   const [selectedPost, setSelectedPost] = useState(null)
-  const [sortBy, setSortBy] = useState(queryParams.get("sortBy") || "")
-  const [sortOrder, setSortOrder] = useState(queryParams.get("sortOrder") || "asc")
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [newPost, setNewPost] = useState({ title: "", body: "", userId: 1 })
   const [loading, setLoading] = useState(false)
-  const [selectedTag, setSelectedTag] = useState(queryParams.get("tag") || "")
   const [comments, setComments] = useState({})
   const [selectedComment, setSelectedComment] = useState(null)
   const [newComment, setNewComment] = useState({ body: "", postId: null, userId: 1 })
@@ -43,18 +35,6 @@ const PostsManager = () => {
   const [showPostDetailDialog, setShowPostDetailDialog] = useState(false)
   const [showUserModal, setShowUserModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
-
-  // URL 업데이트 함수
-  const updateURL = () => {
-    const params = new URLSearchParams()
-    if (skip) params.set("skip", skip.toString())
-    if (limit) params.set("limit", limit.toString())
-    if (searchQuery) params.set("search", searchQuery)
-    if (sortBy) params.set("sortBy", sortBy)
-    if (sortOrder) params.set("sortOrder", sortOrder)
-    if (selectedTag) params.set("tag", selectedTag)
-    navigate(`?${params.toString()}`)
-  }
 
   // 게시물 가져오기
   const fetchPosts = () => {
@@ -84,24 +64,6 @@ const PostsManager = () => {
       .finally(() => {
         setLoading(false)
       })
-  }
-
-  // 게시물 검색
-  const searchPosts = async () => {
-    if (!searchQuery) {
-      fetchPosts()
-      return
-    }
-    setLoading(true)
-    try {
-      const response = await fetch(`/api/posts/search?q=${searchQuery}`)
-      const data = await response.json()
-      setPosts(data.posts)
-      setTotal(data.total)
-    } catch (error) {
-      console.error("게시물 검색 오류:", error)
-    }
-    setLoading(false)
   }
 
   // 태그별 게시물 가져오기
@@ -241,18 +203,8 @@ const PostsManager = () => {
     } else {
       fetchPosts()
     }
-    updateURL()
+    updateQueryParams()
   }, [skip, limit, sortBy, sortOrder, selectedTag])
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    setSkip(parseInt(params.get("skip") || "0"))
-    setLimit(parseInt(params.get("limit") || "10"))
-    setSearchQuery(params.get("search") || "")
-    setSortBy(params.get("sortBy") || "")
-    setSortOrder(params.get("sortOrder") || "asc")
-    setSelectedTag(params.get("tag") || "")
-  }, [location.search])
 
   return (
     <Card className="w-full max-w-6xl mx-auto">
@@ -270,16 +222,11 @@ const PostsManager = () => {
           {/* 검색 및 필터 컨트롤 */}
           <div className="flex gap-4">
             <div className="flex-1">
-              <SearchPost searchQuery={searchQuery} setSearchQuery={setSearchQuery} searchPosts={searchPosts} />
+              <SearchPost fetchPosts={fetchPosts} setLoading={setLoading} setPosts={setPosts} setTotal={setTotal} />
             </div>
-            <TagSelect
-              selectedTag={selectedTag}
-              setSelectedTag={setSelectedTag}
-              fetchPostsByTag={fetchPostsByTag}
-              updateURL={updateURL}
-            />
-            <SortBySelect sortBy={sortBy} setSortBy={setSortBy} />
-            <SortOrderSelect sortOrder={sortOrder} setSortOrder={setSortOrder} />
+            <TagSelect fetchPostsByTag={fetchPostsByTag} />
+            <SortBySelect />
+            <SortOrderSelect />
           </div>
 
           {/* 게시물 테이블 */}
@@ -288,10 +235,6 @@ const PostsManager = () => {
           ) : (
             <PostTable
               posts={posts}
-              searchQuery={searchQuery}
-              selectedTag={selectedTag}
-              setSelectedTag={setSelectedTag}
-              updateURL={updateURL}
               openUserModal={openUserModal}
               openPostDetail={openPostDetail}
               setSelectedPost={setSelectedPost}
@@ -301,7 +244,7 @@ const PostsManager = () => {
           )}
 
           {/* 페이지네이션 */}
-          <Pagination limit={limit} setLimit={setLimit} skip={skip} setSkip={setSkip} total={total} />
+          <Pagination total={total} />
         </div>
       </CardContent>
 
@@ -346,7 +289,6 @@ const PostsManager = () => {
         showPostDetailDialog={showPostDetailDialog}
         setShowPostDetailDialog={setShowPostDetailDialog}
         selectedPost={selectedPost}
-        searchQuery={searchQuery}
         comments={comments}
         setComments={setComments}
         setNewComment={setNewComment}

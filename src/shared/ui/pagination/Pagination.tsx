@@ -1,15 +1,14 @@
+import { useQueryParams } from "../../hooks/useQueryParams"
 import Button from "../button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select"
 
 interface PaginationProps {
-  limit: number
-  setLimit: (limit: number) => void
-  skip: number
-  setSkip: (skip: number) => void
   total: number
 }
 
-const Pagination = ({ limit, setLimit, skip, setSkip, total }: PaginationProps) => {
+const Pagination = ({ total }: PaginationProps) => {
+  const { skip, setSkip, limit, setLimit } = useQueryParams()
+
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-2">

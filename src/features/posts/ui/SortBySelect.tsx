@@ -1,11 +1,9 @@
+import { useQueryParams } from "../../../shared/hooks/useQueryParams"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 
-interface SortBySelectProps {
-  sortBy: string
-  setSortBy: (sortBy: string) => void
-}
+const SortBySelect = () => {
+  const { sortBy, setSortBy } = useQueryParams()
 
-const SortBySelect = ({ sortBy, setSortBy }: SortBySelectProps) => {
   return (
     <Select value={sortBy} onValueChange={setSortBy}>
       <SelectTrigger className="w-[180px]">

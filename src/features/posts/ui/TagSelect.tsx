@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
+import { useQueryParams } from "../../../shared/hooks/useQueryParams"
 
 interface TagSelectProps {
-  selectedTag: string
-  setSelectedTag: (tag: string) => void
   fetchPostsByTag: (tag: string) => void
-  updateURL: () => void
 }
 
-const TagSelect = ({ selectedTag, setSelectedTag, fetchPostsByTag, updateURL }: TagSelectProps) => {
+const TagSelect = ({ fetchPostsByTag }: TagSelectProps) => {
+  const { selectedTag, setSelectedTag, updateQueryParams } = useQueryParams()
+
   const [tags, setTags] = useState([])
 
   // 태그 가져오기
@@ -32,7 +32,7 @@ const TagSelect = ({ selectedTag, setSelectedTag, fetchPostsByTag, updateURL }: 
       onValueChange={(value) => {
         setSelectedTag(value)
         fetchPostsByTag(value)
-        updateURL()
+        updateQueryParams()
       }}
     >
       <SelectTrigger className="w-[180px]">

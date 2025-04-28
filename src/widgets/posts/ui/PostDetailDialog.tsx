@@ -1,3 +1,4 @@
+import { useQueryParams } from "../../../shared/hooks/useQueryParams"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import CommentsSection from "../../comments/ui/CommentsSection"
@@ -6,7 +7,6 @@ interface PostDetailDialogProps {
   showPostDetailDialog: boolean
   setShowPostDetailDialog: (show: boolean) => void
   selectedPost: any
-  searchQuery: string
   comments: unknown[]
   setComments: (comments: any) => void
   setNewComment: (comment: any) => void
@@ -19,7 +19,6 @@ const PostDetailDialog = ({
   showPostDetailDialog,
   setShowPostDetailDialog,
   selectedPost,
-  searchQuery,
   comments,
   setComments,
   setNewComment,
@@ -27,6 +26,8 @@ const PostDetailDialog = ({
   setSelectedComment,
   setShowEditCommentDialog,
 }: PostDetailDialogProps) => {
+  const { searchQuery } = useQueryParams()
+
   return (
     <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>
       <DialogContent className="max-w-3xl">
