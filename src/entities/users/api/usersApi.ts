@@ -7,5 +7,5 @@ export const getUserByIdApi = async (id: number) => {
     console.error("사용자 정보 가져오기 오류:", response.statusText)
   }
 
-  return response.json()
+  return await response.json()
 }

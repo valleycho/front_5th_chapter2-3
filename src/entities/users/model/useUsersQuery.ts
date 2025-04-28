@@ -10,8 +10,8 @@ export const useGetUserByIdQuery = (userId?: number) => {
 
   return useQuery({
     queryKey: ["users", userId],
-    queryFn: () => {
-        const user = getUserByIdApi(userId!)
+    queryFn: async () => {
+        const user = await getUserByIdApi(userId!)
 
         setSelectedUser(user)
         setShowUserInfoDialog(true)
