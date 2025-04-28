@@ -1,14 +1,10 @@
 import { create } from "zustand";
+import { NewComment } from "../../../entities/comments/types/commentTypes";
 
-type NewCommentType = {
-  body: string
-  postId: number | null
-  userId: number
-}
 
 interface AddNewCommentState {
-  newComment: NewCommentType
-  setNewComment: (newComment: NewCommentType) => void
+  newComment: NewComment
+  setNewComment: (newComment: NewComment) => void
 }
 
 export const useAddNewCommentStore = create<AddNewCommentState>((set) => ({

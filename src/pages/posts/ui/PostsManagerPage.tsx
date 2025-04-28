@@ -19,7 +19,6 @@ import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
 import { useUsers } from "../../../entities/users/model/useUsers"
-import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewComment"
 
 const PostsManager = () => {
   const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
@@ -27,7 +26,6 @@ const PostsManager = () => {
   const {
     setShowAddDialog,
     setShowEditDialog,
-    setShowAddCommentDialog,
     setShowEditCommentDialog,
     setShowPostDetailDialog,
     setShowUserInfoDialog,
@@ -36,7 +34,6 @@ const PostsManager = () => {
   const { selectedComment } = useCommentsStore()
   const { selectedPost, setSelectedPost } = usePostsStore()
   const { setSelectedUser } = useUsers()
-  const { newComment, setNewComment } = useAddNewCommentStore()
 
   // 상태 관리
   const [loading, setLoading] = useState(false)
@@ -130,26 +127,6 @@ const PostsManager = () => {
     }
   }
 
-  // 댓글 추가
-  const addComment = async () => {
-    try {
-      const response = await fetch("/api/comments/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newComment),
-      })
-      const data = await response.json()
-      setComments((prev) => ({
-        ...prev,
-        [data.postId]: [...(prev[data.postId] || []), data],
-      }))
-      setShowAddCommentDialog(false)
-      setNewComment({ body: "", postId: null, userId: 1 })
-    } catch (error) {
-      console.error("댓글 추가 오류:", error)
-    }
-  }
-
   // 댓글 업데이트
   const updateComment = async () => {
     try {
@@ -237,7 +214,7 @@ const PostsManager = () => {
       <AddPostDialog posts={posts} setPosts={setPosts} />
       <EditPostDialog updatePost={updatePost} />
 
-      <AddCommentDialog addComment={addComment} />
+      <AddCommentDialog />
       <EditCommentDialog updateComment={updateComment} />
 
       <PostDetailDialog comments={comments} setComments={setComments} />

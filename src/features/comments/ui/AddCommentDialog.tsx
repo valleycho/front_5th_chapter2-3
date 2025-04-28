@@ -2,15 +2,14 @@ import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Textarea from "../../../shared/ui/textArea"
-import { useAddNewCommentStore } from "../model/useAddNewComment"
+import { useAddCommentMutation } from "../model/useAddCommentMutation"
+import { useAddNewCommentStore } from "../model/useAddNewCommentStore"
 
-interface AddCommentDialogProps {
-  addComment: () => void
-}
-
-const AddCommentDialog = ({ addComment }: AddCommentDialogProps) => {
+const AddCommentDialog = () => {
   const { showAddCommentDialog, setShowAddCommentDialog } = useDialogStore()
   const { newComment, setNewComment } = useAddNewCommentStore()
+
+  const { mutate: addComment } = useAddCommentMutation()
 
   return (
     <Dialog open={showAddCommentDialog} onOpenChange={setShowAddCommentDialog}>
@@ -22,9 +21,11 @@ const AddCommentDialog = ({ addComment }: AddCommentDialogProps) => {
           <Textarea
             placeholder="댓글 내용"
             value={newComment.body}
-            onChange={(e) => setNewComment({ ...newComment, body: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setNewComment({ ...newComment, body: e.target.value })
+            }
           />
-          <Button onClick={addComment}>댓글 추가</Button>
+          <Button onClick={() => addComment(newComment)}>댓글 추가</Button>
         </div>
       </DialogContent>
     </Dialog>

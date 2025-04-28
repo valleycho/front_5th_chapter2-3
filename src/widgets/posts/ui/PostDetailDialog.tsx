@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../share
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import CommentsSection from "../../comments/ui/CommentsSection"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
-import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewComment"
+import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewCommentStore"
 
 interface PostDetailDialogProps {
   comments: unknown[]
