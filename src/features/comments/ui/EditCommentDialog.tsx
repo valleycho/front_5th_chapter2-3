@@ -1,16 +1,16 @@
-import { useDialogStore } from "../../../shared/lib/useDialogStore"
+import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Textarea from "../../../shared/ui/textArea"
 
 interface EditCommentDialogProps {
-  selectedComment: any
-  setSelectedComment: (comment: any) => void
   updateComment: () => void
 }
 
-const EditCommentDialog = ({ selectedComment, setSelectedComment, updateComment }: EditCommentDialogProps) => {
+const EditCommentDialog = ({ updateComment }: EditCommentDialogProps) => {
   const { showEditCommentDialog, setShowEditCommentDialog } = useDialogStore()
+  const { selectedComment, setSelectedComment } = useCommentsStore()
 
   return (
     <Dialog open={showEditCommentDialog} onOpenChange={setShowEditCommentDialog}>

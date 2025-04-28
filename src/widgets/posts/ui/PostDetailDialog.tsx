@@ -1,26 +1,20 @@
-import { useDialogStore } from "../../../shared/lib/useDialogStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import CommentsSection from "../../comments/ui/CommentsSection"
+import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
 
 interface PostDetailDialogProps {
-  selectedPost: any
   comments: unknown[]
   setComments: (comments: any) => void
   setNewComment: (comment: any) => void
-  setSelectedComment: (comment: any) => void
 }
 
-const PostDetailDialog = ({
-  selectedPost,
-  comments,
-  setComments,
-  setNewComment,
-  setSelectedComment,
-}: PostDetailDialogProps) => {
+const PostDetailDialog = ({ comments, setComments, setNewComment }: PostDetailDialogProps) => {
   const { searchQuery } = useQueryParams()
   const { showPostDetailDialog, setShowPostDetailDialog } = useDialogStore()
+  const { selectedPost } = usePostsStore()
 
   return (
     <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>
@@ -40,7 +34,6 @@ const PostDetailDialog = ({
             comments={comments}
             setComments={setComments}
             setNewComment={setNewComment}
-            setSelectedComment={setSelectedComment}
           />
         </div>
       </DialogContent>

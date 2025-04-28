@@ -11,6 +11,8 @@ interface DialogState {
     setShowEditCommentDialog: (showEditCommentDialog: boolean) => void
     showPostDetailDialog: boolean
     setShowPostDetailDialog: (showPostDetailDialog: boolean) => void
+    showUserInfoDialog: boolean
+    setShowUserInfoDialog: (showUserInfoDialog: boolean) => void
 }
 
 export const useDialogStore = create<DialogState>((set) => ({
@@ -24,4 +26,6 @@ export const useDialogStore = create<DialogState>((set) => ({
   setShowEditCommentDialog: (showEditCommentDialog: boolean) => set({ showEditCommentDialog }),
   showPostDetailDialog: false,
   setShowPostDetailDialog: (showPostDetailDialog: boolean) => set({ showPostDetailDialog }),
+  showUserInfoDialog: false,
+  setShowUserInfoDialog: (showUserInfoDialog: boolean) => set({ showUserInfoDialog }),
 }))

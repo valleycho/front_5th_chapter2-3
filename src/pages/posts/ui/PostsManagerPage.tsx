@@ -15,7 +15,10 @@ import SortBySelect from "../../../features/posts/ui/SortBySelect"
 import TagSelect from "../../../features/posts/ui/TagSelect"
 import SearchPost from "../../../features/posts/ui/SearchPost"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
-import { useDialogStore } from "../../../shared/lib/useDialogStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
+import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
+import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { useUsers } from "../../../entities/users/model/useUsers"
 
 const PostsManager = () => {
   const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
@@ -26,19 +29,20 @@ const PostsManager = () => {
     setShowAddCommentDialog,
     setShowEditCommentDialog,
     setShowPostDetailDialog,
+    setShowUserInfoDialog,
   } = useDialogStore()
+
+  const { selectedComment } = useCommentsStore()
+  const { selectedPost, setSelectedPost } = usePostsStore()
+  const { setSelectedUser } = useUsers()
 
   // 상태 관리
   const [posts, setPosts] = useState([])
   const [total, setTotal] = useState(0)
-  const [selectedPost, setSelectedPost] = useState(null)
   const [newPost, setNewPost] = useState({ title: "", body: "", userId: 1 })
   const [loading, setLoading] = useState(false)
   const [comments, setComments] = useState({})
-  const [selectedComment, setSelectedComment] = useState(null)
   const [newComment, setNewComment] = useState({ body: "", postId: null, userId: 1 })
-  const [showUserModal, setShowUserModal] = useState(false)
-  const [selectedUser, setSelectedUser] = useState(null)
 
   // 게시물 가져오기
   const fetchPosts = () => {
@@ -195,7 +199,7 @@ const PostsManager = () => {
       const response = await fetch(`/api/users/${user.id}`)
       const userData = await response.json()
       setSelectedUser(userData)
-      setShowUserModal(true)
+      setShowUserInfoDialog(true)
     } catch (error) {
       console.error("사용자 정보 가져오기 오류:", error)
     }
@@ -223,7 +227,6 @@ const PostsManager = () => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4">
-          {/* 검색 및 필터 컨트롤 */}
           <div className="flex gap-4">
             <div className="flex-1">
               <SearchPost fetchPosts={fetchPosts} setLoading={setLoading} setPosts={setPosts} setTotal={setTotal} />
@@ -233,7 +236,6 @@ const PostsManager = () => {
             <SortOrderSelect />
           </div>
 
-          {/* 게시물 테이블 */}
           {loading ? (
             <div className="flex justify-center p-4">로딩 중...</div>
           ) : (
@@ -241,43 +243,23 @@ const PostsManager = () => {
               posts={posts}
               openUserModal={openUserModal}
               openPostDetail={openPostDetail}
-              setSelectedPost={setSelectedPost}
               setPosts={setPosts}
             />
           )}
 
-          {/* 페이지네이션 */}
           <Pagination total={total} />
         </div>
       </CardContent>
 
-      {/* 게시물 추가 대화상자 */}
       <AddPostDialog newPost={newPost} setNewPost={setNewPost} addPost={addPost} />
+      <EditPostDialog updatePost={updatePost} />
 
-      {/* 게시물 수정 대화상자 */}
-      <EditPostDialog selectedPost={selectedPost} setSelectedPost={setSelectedPost} updatePost={updatePost} />
-
-      {/* 댓글 추가 대화상자 */}
       <AddCommentDialog newComment={newComment} setNewComment={setNewComment} addComment={addComment} />
+      <EditCommentDialog updateComment={updateComment} />
 
-      {/* 댓글 수정 대화상자 */}
-      <EditCommentDialog
-        selectedComment={selectedComment}
-        setSelectedComment={setSelectedComment}
-        updateComment={updateComment}
-      />
+      <PostDetailDialog comments={comments} setComments={setComments} setNewComment={setNewComment} />
 
-      {/* 게시물 상세 보기 대화상자 */}
-      <PostDetailDialog
-        selectedPost={selectedPost}
-        comments={comments}
-        setComments={setComments}
-        setNewComment={setNewComment}
-        setSelectedComment={setSelectedComment}
-      />
-
-      {/* 사용자 모달 */}
-      <UserInfoDialog showUserModal={showUserModal} setShowUserModal={setShowUserModal} selectedUser={selectedUser} />
+      <UserInfoDialog />
     </Card>
   )
 }

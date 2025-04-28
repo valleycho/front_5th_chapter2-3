@@ -3,19 +3,20 @@ import Button from "../../../shared/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../shared/ui/table"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
-import { useDialogStore } from "../../../shared/lib/useDialogStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
+import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
 
 interface PostTableProps {
   posts: any[]
   openUserModal: (user: any) => void
   openPostDetail: (post: any) => void
-  setSelectedPost: (post: any) => void
   setPosts: (posts: any[]) => void
 }
 
-const PostTable = ({ posts, openUserModal, openPostDetail, setSelectedPost, setPosts }: PostTableProps) => {
+const PostTable = ({ posts, openUserModal, openPostDetail, setPosts }: PostTableProps) => {
   const { selectedTag, setSelectedTag, searchQuery, updateQueryParams } = useQueryParams()
   const { setShowEditDialog } = useDialogStore()
+  const { setSelectedPost } = usePostsStore()
 
   const deletePost = async (id: number) => {
     try {

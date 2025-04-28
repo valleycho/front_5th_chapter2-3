@@ -1,31 +1,13 @@
+import { useUsers } from "../../../entities/users/model/useUsers"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 
-interface UserInfoDialogProps {
-  showUserModal: boolean
-  setShowUserModal: (show: boolean) => void
-  selectedUser: {
-    image: string
-    username: string
-    firstName: string
-    lastName: string
-    age: number
-    email: string
-    phone: string
-    address: {
-      address: string
-      city: string
-      state: string
-    }
-    company: {
-      name: string
-      title: string
-    }
-  }
-}
+const UserInfoDialog = () => {
+  const { showUserInfoDialog, setShowUserInfoDialog } = useDialogStore()
+  const { selectedUser } = useUsers()
 
-const UserInfoDialog = ({ showUserModal, setShowUserModal, selectedUser }: UserInfoDialogProps) => {
   return (
-    <Dialog open={showUserModal} onOpenChange={setShowUserModal}>
+    <Dialog open={showUserInfoDialog} onOpenChange={setShowUserInfoDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>사용자 정보</DialogTitle>

@@ -1,17 +1,17 @@
-import { useDialogStore } from "../../../shared/lib/useDialogStore"
+import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Input from "../../../shared/ui/input"
 import Textarea from "../../../shared/ui/textArea"
 
 interface EditPostDialogProps {
-  selectedPost: any
-  setSelectedPost: (post: any) => void
   updatePost: () => void
 }
 
-const EditPostDialog = ({ selectedPost, setSelectedPost, updatePost }: EditPostDialogProps) => {
+const EditPostDialog = ({ updatePost }: EditPostDialogProps) => {
   const { showEditDialog, setShowEditDialog } = useDialogStore()
+  const { selectedPost, setSelectedPost } = usePostsStore()
 
   return (
     <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
