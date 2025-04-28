@@ -4,11 +4,10 @@ import userEvent from "@testing-library/user-event"
 import { http, HttpResponse } from "msw"
 import { setupServer } from "msw/node"
 import { MemoryRouter } from "react-router-dom"
-import PostsManager from "../src/pages/PostsManagerPage"
 import * as React from "react"
 import "@testing-library/jest-dom"
 import { TEST_POSTS, TEST_SEARCH_POST, TEST_USERS } from "./mockData"
-
+import PostsManager from "../src/pages/posts/ui/PostsManagerPage"
 // MSW 서버 설정
 const server = setupServer(
   http.get("/api/posts", () => {

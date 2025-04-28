@@ -34,7 +34,6 @@ const PostsManager = () => {
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [newPost, setNewPost] = useState({ title: "", body: "", userId: 1 })
   const [loading, setLoading] = useState(false)
-  const [tags, setTags] = useState([])
   const [selectedTag, setSelectedTag] = useState(queryParams.get("tag") || "")
   const [comments, setComments] = useState({})
   const [selectedComment, setSelectedComment] = useState(null)
@@ -85,17 +84,6 @@ const PostsManager = () => {
       .finally(() => {
         setLoading(false)
       })
-  }
-
-  // 태그 가져오기
-  const fetchTags = async () => {
-    try {
-      const response = await fetch("/api/posts/tags")
-      const data = await response.json()
-      setTags(data)
-    } catch (error) {
-      console.error("태그 가져오기 오류:", error)
-    }
   }
 
   // 게시물 검색
@@ -177,18 +165,6 @@ const PostsManager = () => {
     }
   }
 
-  // 게시물 삭제
-  const deletePost = async (id) => {
-    try {
-      await fetch(`/api/posts/${id}`, {
-        method: "DELETE",
-      })
-      setPosts(posts.filter((post) => post.id !== id))
-    } catch (error) {
-      console.error("게시물 삭제 오류:", error)
-    }
-  }
-
   // 댓글 가져오기
   const fetchComments = async (postId) => {
     if (comments[postId]) return // 이미 불러온 댓글이 있으면 다시 불러오지 않음
@@ -260,10 +236,6 @@ const PostsManager = () => {
   }
 
   useEffect(() => {
-    fetchTags()
-  }, [])
-
-  useEffect(() => {
     if (selectedTag) {
       fetchPostsByTag(selectedTag)
     } else {
@@ -305,7 +277,6 @@ const PostsManager = () => {
               setSelectedTag={setSelectedTag}
               fetchPostsByTag={fetchPostsByTag}
               updateURL={updateURL}
-              tags={tags}
             />
             <SortBySelect sortBy={sortBy} setSortBy={setSortBy} />
             <SortOrderSelect sortOrder={sortOrder} setSortOrder={setSortOrder} />
@@ -323,9 +294,9 @@ const PostsManager = () => {
               updateURL={updateURL}
               openUserModal={openUserModal}
               openPostDetail={openPostDetail}
-              deletePost={deletePost}
               setSelectedPost={setSelectedPost}
               setShowEditDialog={setShowEditDialog}
+              setPosts={setPosts}
             />
           )}
 
