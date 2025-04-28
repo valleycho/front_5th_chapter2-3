@@ -5,18 +5,22 @@ import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { useGetUserByIdQuery } from "../../../entities/users/model/useUsersQuery"
+import { useState } from "react"
 
 interface PostTableProps {
   posts: any[]
-  openUserModal: (user: any) => void
   openPostDetail: (post: any) => void
   setPosts: (posts: any[]) => void
 }
 
-const PostTable = ({ posts, openUserModal, openPostDetail, setPosts }: PostTableProps) => {
+const PostTable = ({ posts, openPostDetail, setPosts }: PostTableProps) => {
   const { selectedTag, setSelectedTag, searchQuery, updateQueryParams } = useQueryParams()
   const { setShowEditDialog } = useDialogStore()
   const { setSelectedPost } = usePostsStore()
+
+  const [selectedUserId, setSelectedUserId] = useState<number | undefined>(undefined)
+  const { refetch } = useGetUserByIdQuery(selectedUserId)
 
   const deletePost = async (id: number) => {
     try {
@@ -71,7 +75,13 @@ const PostTable = ({ posts, openUserModal, openPostDetail, setPosts }: PostTable
               </div>
             </TableCell>
             <TableCell>
-              <div className="flex items-center space-x-2 cursor-pointer" onClick={() => openUserModal(post.author)}>
+              <div
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={async () => {
+                  await setSelectedUserId(post.author.id)
+                  refetch()
+                }}
+              >
                 <img src={post.author?.image} alt={post.author?.username} className="w-8 h-8 rounded-full" />
                 <span>{post.author?.username}</span>
               </div>

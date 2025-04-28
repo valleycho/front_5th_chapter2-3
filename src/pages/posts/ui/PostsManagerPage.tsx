@@ -18,22 +18,14 @@ import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
-import { useUsers } from "../../../entities/users/model/useUsers"
 
 const PostsManager = () => {
   const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
 
-  const {
-    setShowAddDialog,
-    setShowEditDialog,
-    setShowEditCommentDialog,
-    setShowPostDetailDialog,
-    setShowUserInfoDialog,
-  } = useDialogStore()
+  const { setShowAddDialog, setShowEditDialog, setShowEditCommentDialog, setShowPostDetailDialog } = useDialogStore()
 
   const { selectedComment } = useCommentsStore()
   const { selectedPost, setSelectedPost } = usePostsStore()
-  const { setSelectedUser } = useUsers()
 
   // 상태 관리
   const [loading, setLoading] = useState(false)
@@ -153,18 +145,6 @@ const PostsManager = () => {
     setShowPostDetailDialog(true)
   }
 
-  // 사용자 모달 열기
-  const openUserModal = async (user) => {
-    try {
-      const response = await fetch(`/api/users/${user.id}`)
-      const userData = await response.json()
-      setSelectedUser(userData)
-      setShowUserInfoDialog(true)
-    } catch (error) {
-      console.error("사용자 정보 가져오기 오류:", error)
-    }
-  }
-
   useEffect(() => {
     if (selectedTag) {
       fetchPostsByTag(selectedTag)
@@ -199,12 +179,7 @@ const PostsManager = () => {
           {loading ? (
             <div className="flex justify-center p-4">로딩 중...</div>
           ) : (
-            <PostTable
-              posts={posts}
-              openUserModal={openUserModal}
-              openPostDetail={openPostDetail}
-              setPosts={setPosts}
-            />
+            <PostTable posts={posts} openPostDetail={openPostDetail} setPosts={setPosts} />
           )}
 
           <Pagination total={total} />
