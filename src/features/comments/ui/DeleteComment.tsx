@@ -1,15 +1,17 @@
 import { Trash2 } from "lucide-react"
 import Button from "../../../shared/ui/button"
+import { CommentType } from "../../../entities/comments/types/commentTypes"
+import { useDeleteCommentMutation } from "../../../entities/comments/model/useCommentsQuery"
 
 interface DeleteCommentProps {
-  commentId: number
-  postId: number
-  deleteComment: (commentId: number, postId: number) => void
+  comment: CommentType
 }
 
-const DeleteComment = ({ commentId, postId, deleteComment }: DeleteCommentProps) => {
+const DeleteComment = ({ comment }: DeleteCommentProps) => {
+  const { mutate: deleteComment } = useDeleteCommentMutation()
+
   return (
-    <Button variant="ghost" size="sm" onClick={() => deleteComment(commentId, postId)}>
+    <Button variant="ghost" size="sm" onClick={() => deleteComment(comment)}>
       <Trash2 className="w-3 h-3" />
     </Button>
   )

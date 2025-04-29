@@ -1,15 +1,17 @@
 import { ThumbsUp } from "lucide-react"
 import Button from "../../../shared/ui/button"
+import { CommentType } from "../../../entities/comments/types/commentTypes"
+import { useLikeCommentMutation } from "../../../entities/comments/model/useCommentsQuery"
 
 interface LikeCommentProps {
-  comment: any
-  postId: number
-  likeComment: (commentId: number, postId: number) => void
+  comment: CommentType
 }
 
-const LikeComment = ({ comment, postId, likeComment }: LikeCommentProps) => {
+const LikeComment = ({ comment }: LikeCommentProps) => {
+  const { mutate: likeComment } = useLikeCommentMutation()
+
   return (
-    <Button variant="ghost" size="sm" onClick={() => likeComment(comment.id, postId)}>
+    <Button variant="ghost" size="sm" onClick={() => likeComment(comment)}>
       <ThumbsUp className="w-3 h-3" />
       <span className="ml-1 text-xs">{comment.likes}</span>
     </Button>

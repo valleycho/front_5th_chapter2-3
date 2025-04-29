@@ -1,5 +1,5 @@
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { addCommentApi, getCommentsApi, likeCommentApi, updateCommentApi } from "../api/commentsApi"
+import { addCommentApi, deleteCommentApi, getCommentsApi, likeCommentApi, updateCommentApi } from "../api/commentsApi"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { CommentResponse, CommentType, NewComment } from "../types/commentTypes"
 import { usePostsStore } from "../../posts/model/usePostsStore"
@@ -74,6 +74,22 @@ export const useLikeCommentMutation = () => {
                         ...likeComment,
                         likes: likeComment.likes + 1
                     } : comment),
+                }
+            })
+        },
+    })
+}
+
+export const useDeleteCommentMutation = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (comment: CommentType) => await deleteCommentApi(comment),
+        onSuccess: (deleteComment: CommentType) => {
+            queryClient.setQueryData(["comments", deleteComment.postId], (oldData: CommentResponse) => {
+                return {
+                    ...oldData,
+                    comments: oldData.comments.filter((comment) => comment.id !== deleteComment.id),
                 }
             })
         },

@@ -1,14 +1,16 @@
 import { Edit2 } from "lucide-react"
 import Button from "../../../shared/ui/button"
 import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
+import { CommentType } from "../../../entities/comments/types/commentTypes"
 
 interface EditCommentDialogButtonProps {
-  comment: any
-  setShowEditCommentDialog: (show: boolean) => void
+  comment: CommentType
 }
 
-const EditCommentDialogButton = ({ comment, setShowEditCommentDialog }: EditCommentDialogButtonProps) => {
+const EditCommentDialogButton = ({ comment }: EditCommentDialogButtonProps) => {
   const { setSelectedComment } = useCommentsStore()
+  const { setShowEditCommentDialog } = useDialogStore()
 
   return (
     <Button

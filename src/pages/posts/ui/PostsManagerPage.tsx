@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import { Plus } from "lucide-react"
-import Button from "../../../shared/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../../../shared/ui/card"
 import PostDetailDialog from "../../../widgets/posts/ui/PostDetailDialog"
 import UserInfoDialog from "../../../widgets/user/ui/UserInfoDialog"
@@ -16,15 +14,14 @@ import TagSelect from "../../../features/posts/ui/TagSelect"
 import SearchPost from "../../../features/posts/ui/SearchPost"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
-import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import AddPostDialogButton from "../../../features/posts/ui/AddPostDialogButton"
 
 const PostsManager = () => {
   const { updateQueryParams, skip, limit, sortBy, sortOrder, selectedTag } = useQueryParams()
 
-  const { setShowAddDialog, setShowEditDialog, setShowEditCommentDialog, setShowPostDetailDialog } = useDialogStore()
+  const { setShowEditDialog, setShowPostDetailDialog } = useDialogStore()
 
-  const { selectedComment } = useCommentsStore()
   const { selectedPost, setSelectedPost } = usePostsStore()
 
   // 상태 관리
@@ -119,25 +116,6 @@ const PostsManager = () => {
     }
   }
 
-  // 댓글 업데이트
-  const updateComment = async () => {
-    try {
-      const response = await fetch(`/api/comments/${selectedComment.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ body: selectedComment.body }),
-      })
-      const data = await response.json()
-      setComments((prev) => ({
-        ...prev,
-        [data.postId]: prev[data.postId].map((comment) => (comment.id === data.id ? data : comment)),
-      }))
-      setShowEditCommentDialog(false)
-    } catch (error) {
-      console.error("댓글 업데이트 오류:", error)
-    }
-  }
-
   // 게시물 상세 보기
   const openPostDetail = (post) => {
     setSelectedPost(post)
@@ -159,10 +137,7 @@ const PostsManager = () => {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>게시물 관리자</span>
-          <Button onClick={() => setShowAddDialog(true)}>
-            <Plus className="w-4 h-4 mr-2" />
-            게시물 추가
-          </Button>
+          <AddPostDialogButton />
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -190,9 +165,9 @@ const PostsManager = () => {
       <EditPostDialog updatePost={updatePost} />
 
       <AddCommentDialog />
-      <EditCommentDialog updateComment={updateComment} />
+      <EditCommentDialog />
 
-      <PostDetailDialog comments={comments} setComments={setComments} />
+      <PostDetailDialog />
 
       <UserInfoDialog />
     </Card>

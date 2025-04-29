@@ -52,3 +52,15 @@ export const likeCommentApi = async (comment: CommentType) => {
 
   return await response.json()
 }
+
+export const deleteCommentApi = async (comment: CommentType) => {
+  const response = await fetch(`/api/comments/${comment.id}`, {
+    method: "DELETE",
+  })
+
+  if (!response.ok) {
+    console.error("댓글 삭제 오류:", response.statusText)
+  }
+
+  return await response.json()
+}

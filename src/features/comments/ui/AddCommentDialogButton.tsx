@@ -1,18 +1,24 @@
 import Button from "../../../shared/ui/button"
 import { Plus } from "lucide-react"
+import { useAddNewCommentStore } from "../model/useAddNewCommentStore"
+import { useDialogStore } from "../../../shared/model/useDialogStore"
+import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
 
-interface AddCommentDialogButtonProps {
-  postId: number
-  setNewComment: (comment: any) => void
-  setShowAddCommentDialog: (show: boolean) => void
-}
+const AddCommentDialogButton = () => {
+  const { newComment, setNewComment } = useAddNewCommentStore()
+  const { setShowAddCommentDialog } = useDialogStore()
+  const { selectedPost } = usePostsStore()
 
-const AddCommentDialogButton = ({ postId, setNewComment, setShowAddCommentDialog }: AddCommentDialogButtonProps) => {
   return (
     <Button
       size="sm"
-      onClick={() => {
-        setNewComment((prev) => ({ ...prev, postId }))
+      onClick={async () => {
+        await setNewComment({
+          body: newComment.body,
+          postId: selectedPost.id,
+          userId: 1,
+        })
+
         setShowAddCommentDialog(true)
       }}
     >
