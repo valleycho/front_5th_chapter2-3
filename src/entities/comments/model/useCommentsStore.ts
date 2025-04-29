@@ -1,11 +1,12 @@
 import { create } from "zustand";
+import { CommentType } from "../types/commentTypes";
 
 interface CommentsState {
-    selectedComment: any | null
-    setSelectedComment: (comment: any | null) => void
+    selectedComment: CommentType | null
+    setSelectedComment: (comment: CommentType | null) => void
 }
 
 export const useCommentsStore = create<CommentsState>((set) => ({
     selectedComment: null,
-    setSelectedComment: (comment: any | null) => set({ selectedComment: comment }),
+    setSelectedComment: (comment: CommentType | null) => set({ selectedComment: comment }),
 }))

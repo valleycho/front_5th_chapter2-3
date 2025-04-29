@@ -1,7 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
-import { getUserByIdApi } from "../api/usersApi"
+import { getAllUserApi, getUserByIdApi } from "../api/usersApi"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { useUsers } from "./useUsers"
+
+export const useGetAllUsersQuery = () => {
+  return useQuery({
+    queryKey: ["allUser"],
+    queryFn: async () => await getAllUserApi(),
+  })
+}
 
 
 export const useGetUserByIdQuery = (userId?: number) => {
@@ -15,6 +22,8 @@ export const useGetUserByIdQuery = (userId?: number) => {
 
         setSelectedUser(user)
         setShowUserInfoDialog(true)
+
+        return user;
     },
     enabled: false,
   })

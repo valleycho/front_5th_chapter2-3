@@ -74,3 +74,16 @@ export type UserType = {
     username: string
     weight: number
 }
+
+export interface AllUserResponse {
+    limit: number
+    skip: number
+    total: number
+    users: Omit<User, "email">[]
+}
+
+export interface UserCommentType {
+    fullName: string
+    id: number
+    username: string
+}
