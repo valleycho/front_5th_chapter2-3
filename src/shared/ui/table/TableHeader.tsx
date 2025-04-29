@@ -1,6 +1,10 @@
 import { forwardRef } from "react"
 
-export const TableHeader = forwardRef(({ className, ...props }, ref) => (
+interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string
+}
+
+export const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(({ className, ...props }, ref) => (
   <thead ref={ref} className={`[&_tr]:border-b ${className}`} {...props} />
 ))
 TableHeader.displayName = "TableHeader"
