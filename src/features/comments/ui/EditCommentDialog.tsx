@@ -1,5 +1,5 @@
 import { useUpdateCommentMutation } from "../../../entities/comments/model/useCommentsQuery"
-import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
+import { useCommentsStore } from "../../../entities/comments/model/useCommentStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"

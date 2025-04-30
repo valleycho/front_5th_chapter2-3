@@ -3,12 +3,12 @@ import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import CommentsSection from "../../comments/ui/CommentsSection"
-import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { usePostStore } from "../../../entities/posts/model/usePostStore"
 
 const PostDetailDialog = () => {
   const { searchQuery } = useQueryParamsHook()
   const { showPostDetailDialog, setShowPostDetailDialog } = useDialogStore()
-  const { selectedPost } = usePostsStore()
+  const { selectedPost } = usePostStore()
 
   return (
     <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>

@@ -1,7 +1,7 @@
 import { Edit2 } from "lucide-react"
 import Button from "../../../shared/ui/button"
-import { PostType } from "../../../entities/posts/types/postsType"
-import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { PostType } from "../../../entities/posts/types/postTypes"
+import { usePostStore } from "../../../entities/posts/model/usePostStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 
 interface EditPostDetailButtonProps {
@@ -9,7 +9,7 @@ interface EditPostDetailButtonProps {
 }
 
 const EditPostDetailButton = ({ post }: EditPostDetailButtonProps) => {
-  const { setSelectedPost } = usePostsStore()
+  const { setSelectedPost } = usePostStore()
   const { setShowEditDialog } = useDialogStore()
 
   return (

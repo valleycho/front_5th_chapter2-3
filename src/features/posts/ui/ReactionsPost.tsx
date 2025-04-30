@@ -1,5 +1,5 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react"
-import { PostType } from "../../../entities/posts/types/postsType"
+import { PostType } from "../../../entities/posts/types/postTypes"
 
 interface ReactionsPostProps {
   post: PostType

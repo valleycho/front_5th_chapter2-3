@@ -1,4 +1,4 @@
-import { AddNewPostType, PostResponse, PostType } from "../types/postsType"
+import { AddNewPostType, PostResponse, PostType } from "../types/postTypes"
 
 
 export const getPostsApi = async (limit: number, skip: number): Promise<PostResponse> => {

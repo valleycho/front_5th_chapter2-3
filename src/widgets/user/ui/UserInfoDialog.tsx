@@ -1,10 +1,10 @@
-import { useUsers } from "../../../entities/users/model/useUsers"
+import { useUserStore } from "../../../entities/users/model/useUserStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 
 const UserInfoDialog = () => {
   const { showUserInfoDialog, setShowUserInfoDialog } = useDialogStore()
-  const { selectedUser } = useUsers()
+  const { selectedUser } = useUserStore()
 
   return (
     <Dialog open={showUserInfoDialog} onOpenChange={setShowUserInfoDialog}>

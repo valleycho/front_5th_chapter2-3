@@ -1,4 +1,4 @@
-import { PostResponse } from "../../../entities/posts/types/postsType"
+import { PostResponse } from "../../../entities/posts/types/postTypes"
 
 export const searchPostApi = async (searchQuery: string): Promise<PostResponse> => {
   const response = await fetch(`/api/posts/search?q=${searchQuery}`)

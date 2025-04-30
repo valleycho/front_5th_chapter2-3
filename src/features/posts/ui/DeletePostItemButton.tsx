@@ -1,6 +1,6 @@
 import { Trash2 } from "lucide-react"
 import Button from "../../../shared/ui/button"
-import { PostType } from "../../../entities/posts/types/postsType"
+import { PostType } from "../../../entities/posts/types/postTypes"
 import { useDeletePostMutation } from "../../../entities/posts/model/usePostsQuery"
 
 interface DeletePostItemButtonProps {

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { useAddNewCommentStore } from "./useAddNewCommentStore"
-import { addCommentApi } from "../../../entities/comments/api/commentsApi"
+import { addCommentApi } from "../../../entities/comments/api/commentApi"
 import { NewComment } from "../../../entities/comments/types/commentTypes"
 
 export const useAddCommentMutation = () => {

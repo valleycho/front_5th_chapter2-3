@@ -1,8 +1,8 @@
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { addCommentApi, deleteCommentApi, getCommentsApi, likeCommentApi, updateCommentApi } from "../api/commentsApi"
+import { addCommentApi, deleteCommentApi, getCommentsApi, likeCommentApi, updateCommentApi } from "../api/commentApi"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { CommentResponse, CommentType, NewComment } from "../types/commentTypes"
-import { usePostsStore } from "../../posts/model/usePostsStore"
+import { usePostStore } from "../../posts/model/usePostStore"
 import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewCommentStore"
 import { AllUserResponse } from "../../users/types/userTypes"
 
@@ -16,7 +16,7 @@ export const useGetCommentsQuery = (postId: number) => {
 export const useAddCommentMutation = () => {
     const queryClient = useQueryClient()
     const { setShowAddCommentDialog } = useDialogStore()
-    const { selectedPost } = usePostsStore()
+    const { selectedPost } = usePostStore()
     const { newComment } = useAddNewCommentStore()
 
     return useMutation({
@@ -41,7 +41,7 @@ export const useAddCommentMutation = () => {
 
 export const useUpdateCommentMutation = () => {
     const queryClient = useQueryClient()
-    const { selectedPost } = usePostsStore()
+    const { selectedPost } = usePostStore()
     const { setShowEditCommentDialog } = useDialogStore()
 
     return useMutation({

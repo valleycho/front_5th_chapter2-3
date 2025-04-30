@@ -1,6 +1,6 @@
 import { Edit2 } from "lucide-react"
 import Button from "../../../shared/ui/button"
-import { useCommentsStore } from "../../../entities/comments/model/useCommentsStore"
+import { useCommentsStore } from "../../../entities/comments/model/useCommentStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { CommentType } from "../../../entities/comments/types/commentTypes"
 

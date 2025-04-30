@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { addPostApi, deletePostApi, getPostsApi, updatePostApi } from "../api/postsApi"
-import { AddNewPostType, PostResponse, PostType } from "../types/postsType"
+import { addPostApi, deletePostApi, getPostsApi, updatePostApi } from "../api/postApi"
+import { AddNewPostType, PostResponse, PostType } from "../types/postTypes"
 import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { AllUserResponse } from "../../users/types/userTypes"
 import { useDialogStore } from "../../../shared/model/useDialogStore"

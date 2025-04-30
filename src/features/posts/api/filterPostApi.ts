@@ -1,4 +1,4 @@
-import { PostResponse } from "../../../entities/posts/types/postsType"
+import { PostResponse } from "../../../entities/posts/types/postTypes"
 
 export const getPostByTagFilterApi = async (tag: string): Promise<PostResponse> => {
   const response = await fetch(`/api/posts/tag/${tag}`)

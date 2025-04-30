@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
-import { getAllUserApi, getUserByIdApi } from "../api/usersApi"
+import { getAllUserApi, getUserByIdApi } from "../api/userApi"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
-import { useUsers } from "./useUsers"
+import { useUserStore } from "./useUserStore"
 
 export const useGetAllUsersQuery = () => {
   return useQuery({
@@ -13,7 +13,7 @@ export const useGetAllUsersQuery = () => {
 
 export const useGetUserByIdQuery = (userId?: number) => {
   const { setShowUserInfoDialog } = useDialogStore()
-  const { setSelectedUser } = useUsers()
+  const { setSelectedUser } = useUserStore()
 
   return useQuery({
     queryKey: ["users", userId],

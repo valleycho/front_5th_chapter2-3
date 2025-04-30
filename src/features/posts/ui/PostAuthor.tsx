@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { PostType } from "../../../entities/posts/types/postsType"
+import { PostType } from "../../../entities/posts/types/postTypes"
 import { useGetUserByIdQuery } from "../../../entities/users/model/useUsersQuery"
 
 interface PostAuthorProps {

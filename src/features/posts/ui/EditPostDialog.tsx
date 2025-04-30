@@ -1,5 +1,5 @@
 import { useUpdatePostMutation } from "../../../entities/posts/model/usePostsQuery"
-import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { usePostStore } from "../../../entities/posts/model/usePostStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
@@ -8,7 +8,7 @@ import Textarea from "../../../shared/ui/textArea"
 
 const EditPostDialog = () => {
   const { showEditDialog, setShowEditDialog } = useDialogStore()
-  const { selectedPost, setSelectedPost } = usePostsStore()
+  const { selectedPost, setSelectedPost } = usePostStore()
 
   const { mutate: updatePost } = useUpdatePostMutation()
 

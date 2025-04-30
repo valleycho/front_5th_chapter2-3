@@ -6,7 +6,7 @@ interface PostsState {
     setSelectedPost: (post: any | null) => void;
 }
 
-export const usePostsStore = create<PostsState>((set) => ({
+export const usePostStore = create<PostsState>((set) => ({
     selectedPost: null,
     setSelectedPost: (post: any | null) => set({ selectedPost: post }),
 }))

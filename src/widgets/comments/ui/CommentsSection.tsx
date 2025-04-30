@@ -1,6 +1,6 @@
 import { useGetCommentsQuery } from "../../../entities/comments/model/useCommentsQuery"
 import { CommentType } from "../../../entities/comments/types/commentTypes"
-import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
+import { usePostStore } from "../../../entities/posts/model/usePostStore"
 import AddCommentDialogButton from "../../../features/comments/ui/AddCommentDialogButton"
 import DeleteComment from "../../../features/comments/ui/DeleteComment"
 import EditCommentDialogButton from "../../../features/comments/ui/EditCommentDialogButton"
@@ -9,7 +9,7 @@ import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 const CommentsSection = () => {
-  const { selectedPost } = usePostsStore()
+  const { selectedPost } = usePostStore()
   const { searchQuery } = useQueryParamsHook()
 
   const { data: commentData } = useGetCommentsQuery(selectedPost?.id)
