@@ -1,11 +1,19 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
+import { useQueryClient } from "@tanstack/react-query"
 
 const SortOrderSelect = () => {
+  const queryClient = useQueryClient()
   const { sortOrder, setSortOrder } = useQueryParamsHook()
 
+  const handleSortOrderChange = (value: string) => {
+    setSortOrder(value)
+
+    queryClient.removeQueries({ queryKey: ["posts"] })
+  }
+
   return (
-    <Select value={sortOrder} onValueChange={setSortOrder}>
+    <Select value={sortOrder} onValueChange={(value) => handleSortOrderChange(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="정렬 순서" />
       </SelectTrigger>

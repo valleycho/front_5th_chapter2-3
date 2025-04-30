@@ -50,7 +50,11 @@ export const likeCommentApi = async (comment: CommentType) => {
     console.error("댓글 좋아요 오류:", response.statusText)
   }
 
-  return await response.json()
+  // 원래는 이거써야하는데 msw가 모킹된 데이터로 고정이라 이렇게 일단 반환
+  // return await response.json()
+  return {
+    ...comment,
+  }
 }
 
 export const deleteCommentApi = async (comment: CommentType) => {
