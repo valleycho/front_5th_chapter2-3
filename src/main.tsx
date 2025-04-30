@@ -14,26 +14,11 @@ const queryClient = new QueryClient({
   },
 })
 
-async function enableMocking() {
-  if (import.meta.env.MODE !== "production") {
-    return
-  }
-
-  const { worker } = await import("./mocks/browser")
-  return worker.start({
-    serviceWorker: {
-      url: `${import.meta.env.BASE_URL}mockServiceWorker.js`,
-    },
-  })
-}
-
-enableMocking().then(() => {
-  createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </StrictMode>,
-  )
-})
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </StrictMode>,
+)
