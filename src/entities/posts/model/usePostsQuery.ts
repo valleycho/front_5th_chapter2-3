@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { addPostApi, deletePostApi, getPostsApi, updatePostApi } from "../api/postsApi"
 import { AddNewPostType, PostResponse, PostType } from "../types/postsType"
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { AllUserResponse } from "../../users/types/userTypes"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { searchPostApi } from "../../../features/posts/api/searchPostApi"
@@ -9,7 +9,7 @@ import { getPostByTagFilterApi } from "../../../features/posts/api/filterPostApi
 
 export const useGetPostsQuery = (allUser?: AllUserResponse) => {
   
-  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParamsHook()
   const queryClient = useQueryClient()
 
   return useQuery({
@@ -52,7 +52,7 @@ export const useGetPostsQuery = (allUser?: AllUserResponse) => {
 }
 
 export const useDeletePostMutation = () => {
-  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParamsHook()
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -70,7 +70,7 @@ export const useDeletePostMutation = () => {
 
 export const useAddPostMutation = () => {
   const queryClient = useQueryClient()
-  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParamsHook()
   const { setShowAddDialog } = useDialogStore()
   
   return useMutation({
@@ -90,7 +90,7 @@ export const useAddPostMutation = () => {
 
 export const useUpdatePostMutation = () => {
   const queryClient = useQueryClient()
-  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParamsHook()
   const { setShowEditDialog } = useDialogStore()
 
   return useMutation({

@@ -6,12 +6,12 @@ import PostAuthor from "../../../features/posts/ui/PostAuthor"
 import PostDetailButton from "../../../features/posts/ui/PostDetailButton"
 import PostTagList from "../../../features/posts/ui/PostTagList"
 import ReactionsPost from "../../../features/posts/ui/ReactionsPost"
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../shared/ui/table"
 
 const PostTable = () => {
-  const { searchQuery } = useQueryParams()
+  const { searchQuery } = useQueryParamsHook()
 
   const { data: allUser } = useGetAllUsersQuery()
   const { data: postsData, isLoading } = useGetPostsQuery(allUser)

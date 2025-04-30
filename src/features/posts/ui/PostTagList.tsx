@@ -1,11 +1,11 @@
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 
 interface PostTagListProps {
   tags: string[]
 }
 
 const PostTagList = ({ tags }: PostTagListProps) => {
-  const { selectedTag, updateQueryParams } = useQueryParams()
+  const { selectedTag, updateQueryParams } = useQueryParamsHook()
 
   return (
     <div className="flex flex-wrap gap-1">

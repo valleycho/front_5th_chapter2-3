@@ -1,10 +1,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { useGetTagsQuery } from "../../../entities/tags/model/useTagsQuery"
 import { TagType } from "../../../entities/tags/types/tagsType"
 
 const TagSelect = () => {
-  const { selectedTag, setSelectedTag } = useQueryParams()
+  const { selectedTag, setSelectedTag } = useQueryParamsHook()
 
   const { data: tags } = useGetTagsQuery()
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { useNavigates } from "./useNavigates"
+import { useNavigateHook } from "./useNavigateHook"
 
-export const useQueryParams = () => {
-  const { navigateTo } = useNavigates()
+export const useQueryParamsHook = () => {
+  const { navigateTo } = useNavigateHook()
 
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)

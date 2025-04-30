@@ -5,12 +5,12 @@ import AddCommentDialogButton from "../../../features/comments/ui/AddCommentDial
 import DeleteComment from "../../../features/comments/ui/DeleteComment"
 import EditCommentDialogButton from "../../../features/comments/ui/EditCommentDialogButton"
 import LikeComment from "../../../features/comments/ui/LikeComment"
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 const CommentsSection = () => {
   const { selectedPost } = usePostsStore()
-  const { searchQuery } = useQueryParams()
+  const { searchQuery } = useQueryParamsHook()
 
   const { data: commentData } = useGetCommentsQuery(selectedPost?.id)
 

@@ -1,8 +1,8 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 
 const SortOrderSelect = () => {
-  const { sortOrder, setSortOrder } = useQueryParams()
+  const { sortOrder, setSortOrder } = useQueryParamsHook()
 
   return (
     <Select value={sortOrder} onValueChange={setSortOrder}>

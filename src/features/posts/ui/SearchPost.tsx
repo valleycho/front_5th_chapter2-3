@@ -1,9 +1,9 @@
 import { Search } from "lucide-react"
 import Input from "../../../shared/ui/input"
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 
 const SearchPost = () => {
-  const { searchQuery, setSearchQuery, updateQueryParams } = useQueryParams()
+  const { searchQuery, setSearchQuery, updateQueryParams } = useQueryParamsHook()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)

@@ -1,10 +1,10 @@
 import { useGetPostsQuery } from "../../../entities/posts/model/usePostsQuery"
-import { useQueryParams } from "../../lib/useQueryParams"
+import { useQueryParamsHook } from "../../lib/useQueryParamsHook"
 import Button from "../button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select"
 
 const Pagination = () => {
-  const { skip, setSkip, limit, setLimit } = useQueryParams()
+  const { skip, setSkip, limit, setLimit } = useQueryParamsHook()
   const { data: postsData } = useGetPostsQuery()
 
   return (

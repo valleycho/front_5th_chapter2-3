@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
-export const useNavigates = () => {
+export const useNavigateHook = () => {
   const navigate = useNavigate()
 
   

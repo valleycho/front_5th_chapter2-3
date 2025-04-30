@@ -1,8 +1,8 @@
-import { useQueryParams } from "../../../shared/lib/useQueryParams"
+import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 
 const SortBySelect = () => {
-  const { sortBy, setSortBy } = useQueryParams()
+  const { sortBy, setSortBy } = useQueryParamsHook()
 
   return (
     <Select value={sortBy} onValueChange={setSortBy}>
