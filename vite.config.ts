@@ -5,7 +5,7 @@ import { resolve } from "path"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "",
+  base: "/front_5th_chapter2-3/",
   build: {
     outDir: "dist",
     rollupOptions: {
