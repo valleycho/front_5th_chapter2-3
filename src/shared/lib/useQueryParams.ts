@@ -36,6 +36,10 @@ export const useQueryParams = () => {
     setSelectedTag(queryParams.get("tag") || "")
   }, [location.search])
 
+  useEffect(() => {
+    updateQueryParams()
+  }, [skip, limit, sortBy, sortOrder, selectedTag])
+
   return {
     updateQueryParams,
     skip,

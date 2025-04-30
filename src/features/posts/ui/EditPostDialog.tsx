@@ -1,3 +1,4 @@
+import { useUpdatePostMutation } from "../../../entities/posts/model/usePostsQuery"
 import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
@@ -5,13 +6,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../share
 import Input from "../../../shared/ui/input"
 import Textarea from "../../../shared/ui/textArea"
 
-interface EditPostDialogProps {
-  updatePost: () => void
-}
-
-const EditPostDialog = ({ updatePost }: EditPostDialogProps) => {
+const EditPostDialog = () => {
   const { showEditDialog, setShowEditDialog } = useDialogStore()
   const { selectedPost, setSelectedPost } = usePostsStore()
+
+  const { mutate: updatePost } = useUpdatePostMutation()
 
   return (
     <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
@@ -31,7 +30,7 @@ const EditPostDialog = ({ updatePost }: EditPostDialogProps) => {
             value={selectedPost?.body || ""}
             onChange={(e) => setSelectedPost({ ...selectedPost, body: e.target.value })}
           />
-          <Button onClick={updatePost}>게시물 업데이트</Button>
+          <Button onClick={() => updatePost(selectedPost)}>게시물 업데이트</Button>
         </div>
       </DialogContent>
     </Dialog>

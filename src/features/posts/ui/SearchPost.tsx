@@ -2,32 +2,17 @@ import { Search } from "lucide-react"
 import Input from "../../../shared/ui/input"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
 
-interface SearchPostProps {
-  fetchPosts: () => void
-  setLoading: (loading: boolean) => void
-  setPosts: (posts: any[]) => void
-  setTotal: (total: number) => void
-}
+const SearchPost = () => {
+  const { searchQuery, setSearchQuery, updateQueryParams } = useQueryParams()
 
-const SearchPost = ({ fetchPosts, setLoading, setPosts, setTotal }: SearchPostProps) => {
-  const { searchQuery, setSearchQuery } = useQueryParams()
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
+  }
 
-  // 게시물 검색
-  const searchPosts = async (searchQuery: string) => {
-    if (!searchQuery) {
-      fetchPosts()
-      return
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      updateQueryParams()
     }
-    setLoading(true)
-    try {
-      const response = await fetch(`/api/posts/search?q=${searchQuery}`)
-      const data = await response.json()
-      setPosts(data.posts)
-      setTotal(data.total)
-    } catch (error) {
-      console.error("게시물 검색 오류:", error)
-    }
-    setLoading(false)
   }
 
   return (
@@ -37,8 +22,8 @@ const SearchPost = ({ fetchPosts, setLoading, setPosts, setTotal }: SearchPostPr
         placeholder="게시물 검색..."
         className="pl-8"
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyPress={(e) => e.key === "Enter" && searchPosts(e.target.value)}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
     </div>
   )

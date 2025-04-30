@@ -1,13 +1,11 @@
+import { useGetPostsQuery } from "../../../entities/posts/model/usePostsQuery"
 import { useQueryParams } from "../../lib/useQueryParams"
 import Button from "../button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select"
 
-interface PaginationProps {
-  total: number
-}
-
-const Pagination = ({ total }: PaginationProps) => {
+const Pagination = () => {
   const { skip, setSkip, limit, setLimit } = useQueryParams()
+  const { data: postsData } = useGetPostsQuery()
 
   return (
     <div className="flex justify-between items-center">
@@ -29,7 +27,7 @@ const Pagination = ({ total }: PaginationProps) => {
         <Button disabled={skip === 0} onClick={() => setSkip(Math.max(0, skip - limit))}>
           이전
         </Button>
-        <Button disabled={skip + limit >= total} onClick={() => setSkip(skip + limit)}>
+        <Button disabled={skip + limit >= (postsData?.total ?? 0)} onClick={() => setSkip(skip + limit)}>
           다음
         </Button>
       </div>

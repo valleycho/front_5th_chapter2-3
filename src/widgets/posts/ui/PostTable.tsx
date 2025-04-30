@@ -1,124 +1,67 @@
-import { Edit2, MessageSquare, ThumbsDown, ThumbsUp, Trash2 } from "lucide-react"
-import Button from "../../../shared/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../shared/ui/table"
-import HighlightText from "../../../shared/ui/highlight/HighLightText"
+import { useGetPostsQuery } from "../../../entities/posts/model/usePostsQuery"
+import { useGetAllUsersQuery } from "../../../entities/users/model/useUsersQuery"
+import DeletePostItemButton from "../../../features/posts/ui/DeletePostItemButton"
+import EditPostDetailButton from "../../../features/posts/ui/EditPostDetailButton"
+import PostAuthor from "../../../features/posts/ui/PostAuthor"
+import PostDetailButton from "../../../features/posts/ui/PostDetailButton"
+import PostTagList from "../../../features/posts/ui/PostTagList"
+import ReactionsPost from "../../../features/posts/ui/ReactionsPost"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
-import { useDialogStore } from "../../../shared/model/useDialogStore"
-import { usePostsStore } from "../../../entities/posts/model/usePostsStore"
-import { useGetUserByIdQuery } from "../../../entities/users/model/useUsersQuery"
-import { useState } from "react"
+import HighlightText from "../../../shared/ui/highlight/HighLightText"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../shared/ui/table"
 
-interface PostTableProps {
-  posts: any[]
-  openPostDetail: (post: any) => void
-  setPosts: (posts: any[]) => void
-}
+const PostTable = () => {
+  const { searchQuery } = useQueryParams()
 
-const PostTable = ({ posts, openPostDetail, setPosts }: PostTableProps) => {
-  const { selectedTag, setSelectedTag, searchQuery, updateQueryParams } = useQueryParams()
-  const { setShowEditDialog } = useDialogStore()
-  const { setSelectedPost } = usePostsStore()
+  const { data: allUser } = useGetAllUsersQuery()
+  const { data: postsData, isLoading } = useGetPostsQuery(allUser)
 
-  const [selectedUserId, setSelectedUserId] = useState<number | undefined>(undefined)
-  const { refetch } = useGetUserByIdQuery(selectedUserId)
+  if (!isLoading && postsData) {
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[50px]">ID</TableHead>
+            <TableHead>제목</TableHead>
+            <TableHead className="w-[150px]">작성자</TableHead>
+            <TableHead className="w-[150px]">반응</TableHead>
+            <TableHead className="w-[150px]">작업</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {postsData?.posts.map((post) => (
+            <TableRow key={post.id}>
+              <TableCell>{post.id}</TableCell>
+              <TableCell>
+                <div className="space-y-1">
+                  <div>
+                    <HighlightText text={post.title} highlight={searchQuery} />
+                  </div>
 
-  const deletePost = async (id: number) => {
-    try {
-      await fetch(`/api/posts/${id}`, {
-        method: "DELETE",
-      })
-      setPosts(posts.filter((post) => post.id !== id))
-    } catch (error) {
-      console.error("게시물 삭제 오류:", error)
-    }
+                  <PostTagList tags={post.tags} />
+                </div>
+              </TableCell>
+              <TableCell>
+                <PostAuthor post={post} />
+              </TableCell>
+              <TableCell>
+                <ReactionsPost post={post} />
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <PostDetailButton post={post} />
+                  <EditPostDetailButton post={post} />
+                  <DeletePostItemButton post={post} />
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    )
   }
 
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[50px]">ID</TableHead>
-          <TableHead>제목</TableHead>
-          <TableHead className="w-[150px]">작성자</TableHead>
-          <TableHead className="w-[150px]">반응</TableHead>
-          <TableHead className="w-[150px]">작업</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {posts.map((post) => (
-          <TableRow key={post.id}>
-            <TableCell>{post.id}</TableCell>
-            <TableCell>
-              <div className="space-y-1">
-                <div>
-                  <HighlightText text={post.title} highlight={searchQuery} />
-                </div>
-
-                <div className="flex flex-wrap gap-1">
-                  {post.tags?.map((tag) => (
-                    <span
-                      key={tag}
-                      className={`px-1 text-[9px] font-semibold rounded-[4px] cursor-pointer ${
-                        selectedTag === tag
-                          ? "text-white bg-blue-500 hover:bg-blue-600"
-                          : "text-blue-800 bg-blue-100 hover:bg-blue-200"
-                      }`}
-                      onClick={() => {
-                        setSelectedTag(tag)
-                        updateQueryParams()
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>
-              <div
-                className="flex items-center space-x-2 cursor-pointer"
-                onClick={async () => {
-                  await setSelectedUserId(post.author.id)
-                  refetch()
-                }}
-              >
-                <img src={post.author?.image} alt={post.author?.username} className="w-8 h-8 rounded-full" />
-                <span>{post.author?.username}</span>
-              </div>
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                <ThumbsUp className="w-4 h-4" />
-                <span>{post.reactions?.likes || 0}</span>
-                <ThumbsDown className="w-4 h-4" />
-                <span>{post.reactions?.dislikes || 0}</span>
-              </div>
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" onClick={() => openPostDetail(post)}>
-                  <MessageSquare className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedPost(post)
-                    setShowEditDialog(true)
-                  }}
-                >
-                  <Edit2 className="w-4 h-4" />
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => deletePost(post.id)}>
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  )
+  return <div className="flex justify-center p-4">로딩 중...</div>
 }
 
 export default PostTable

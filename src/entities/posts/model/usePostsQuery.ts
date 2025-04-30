@@ -4,19 +4,42 @@ import { AddNewPostType, PostResponse, PostType } from "../types/postsType"
 import { useQueryParams } from "../../../shared/lib/useQueryParams"
 import { AllUserResponse } from "../../users/types/userTypes"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
+import { searchPostApi } from "../../../features/posts/api/searchPostApi"
+import { getPostByTagFilterApi } from "../../../features/posts/api/filterPostApi"
 
 export const useGetPostsQuery = (allUser?: AllUserResponse) => {
   
-  const { limit, skip } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
   const queryClient = useQueryClient()
 
   return useQuery({
-    queryKey: ["posts", { limit, skip }],
+    queryKey: ["posts", { limit, skip, searchQuery, selectedTag }],
     queryFn: async () => {
-      const postResposne = await getPostsApi(limit, skip)
-
       const allUserResponse = await queryClient.getQueryData<AllUserResponse>(["allUser"])
 
+
+      if (searchQuery) {
+        const postResposne = await searchPostApi(searchQuery)
+        const postWithAuthor = {
+          ...postResposne,
+          posts: postResposne.posts.map((post) => ({ ...post, author: allUserResponse?.users?.find((user) => user.id === post.userId) }))
+        }
+
+        return postWithAuthor
+      } 
+      
+      if (selectedTag) {
+        const postResposne = await getPostByTagFilterApi(selectedTag)
+        const postWithAuthor = {
+          ...postResposne,
+          posts: postResposne.posts.map((post) => ({ ...post, author: allUserResponse?.users?.find((user) => user.id === post.userId) }))
+        }
+
+        return postWithAuthor
+      }
+
+      
+      const postResposne = await getPostsApi(limit, skip)
       const postWithAuthor = {
         ...postResposne,
         posts: postResposne.posts.map((post) => ({ ...post, author: allUserResponse?.users?.find((user) => user.id === post.userId) }))
@@ -29,13 +52,13 @@ export const useGetPostsQuery = (allUser?: AllUserResponse) => {
 }
 
 export const useDeletePostMutation = () => {
-  const { limit, skip } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (postId: number) => await deletePostApi(postId),
     onSuccess: (postResponse: PostType) => {
-      queryClient.setQueryData(["posts", { limit, skip }], (old: PostResponse) => {
+      queryClient.setQueryData(["posts", { limit, skip, searchQuery, selectedTag }], (old: PostResponse) => {
         return {
           ...old,
           posts: old.posts.filter((post) => post.id !== postResponse.id)
@@ -47,13 +70,13 @@ export const useDeletePostMutation = () => {
 
 export const useAddPostMutation = () => {
   const queryClient = useQueryClient()
-  const { limit, skip } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
   const { setShowAddDialog } = useDialogStore()
   
   return useMutation({
     mutationFn: async (newPost: AddNewPostType) => await addPostApi(newPost),
     onSuccess: (postResponse: PostType) => {
-      queryClient.setQueryData(["posts", { limit, skip }], (old: PostResponse) => {
+      queryClient.setQueryData(["posts", { limit, skip, searchQuery, selectedTag }], (old: PostResponse) => {
         return {
           ...old,
           posts: [postResponse, ...old.posts]
@@ -67,13 +90,13 @@ export const useAddPostMutation = () => {
 
 export const useUpdatePostMutation = () => {
   const queryClient = useQueryClient()
-  const { limit, skip } = useQueryParams()
+  const { limit, skip, searchQuery, selectedTag } = useQueryParams()
   const { setShowEditDialog } = useDialogStore()
 
   return useMutation({
     mutationFn: async (selectedPost: PostType) => await updatePostApi(selectedPost.id, selectedPost),
     onSuccess: (postResponse: PostType) => {
-      queryClient.setQueryData(["posts", { limit, skip }], (old: PostResponse) => {
+      queryClient.setQueryData(["posts", { limit, skip, searchQuery, selectedTag }], (old: PostResponse) => {
         return {
           ...old,
           posts: old.posts.map((post) => (post.id === postResponse.id ? postResponse : post))
