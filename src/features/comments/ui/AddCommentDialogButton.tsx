@@ -1,11 +1,11 @@
 import Button from "../../../shared/ui/button"
 import { Plus } from "lucide-react"
-import { useAddNewCommentStore } from "../model/useAddNewCommentStore"
+import { useAddCommentStore } from "../model/useAddCommentStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { usePostStore } from "../../../entities/posts/model/usePostStore"
 
 const AddCommentDialogButton = () => {
-  const { newComment, setNewComment } = useAddNewCommentStore()
+  const { newComment, setNewComment } = useAddCommentStore()
   const { setShowAddCommentDialog } = useDialogStore()
   const { selectedPost } = usePostStore()
 

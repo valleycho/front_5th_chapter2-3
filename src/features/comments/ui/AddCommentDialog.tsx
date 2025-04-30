@@ -1,13 +1,13 @@
+import { useAddCommentMutation } from "../../../entities/comments/model/useCommentsQuery"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import Button from "../../../shared/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
 import Textarea from "../../../shared/ui/textArea"
-import { useAddCommentMutation } from "../model/useAddCommentMutation"
-import { useAddNewCommentStore } from "../model/useAddNewCommentStore"
+import { useAddCommentStore } from "../model/useAddCommentStore"
 
 const AddCommentDialog = () => {
   const { showAddCommentDialog, setShowAddCommentDialog } = useDialogStore()
-  const { newComment, setNewComment } = useAddNewCommentStore()
+  const { newComment, setNewComment } = useAddCommentStore()
 
   const { mutate: addComment } = useAddCommentMutation()
 

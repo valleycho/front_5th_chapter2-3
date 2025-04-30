@@ -3,7 +3,7 @@ import { addCommentApi, deleteCommentApi, getCommentsApi, likeCommentApi, update
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { CommentResponse, CommentType, NewComment } from "../types/commentTypes"
 import { usePostStore } from "../../posts/model/usePostStore"
-import { useAddNewCommentStore } from "../../../features/comments/model/useAddNewCommentStore"
+import { useAddCommentStore } from "../../../features/comments/model/useAddCommentStore"
 import { AllUserResponse } from "../../users/types/userTypes"
 
 export const useGetCommentsQuery = (postId: number) => {
@@ -17,7 +17,7 @@ export const useAddCommentMutation = () => {
     const queryClient = useQueryClient()
     const { setShowAddCommentDialog } = useDialogStore()
     const { selectedPost } = usePostStore()
-    const { newComment } = useAddNewCommentStore()
+    const { newComment } = useAddCommentStore()
 
     return useMutation({
         mutationFn: async (comment: NewComment) => await addCommentApi(comment),
