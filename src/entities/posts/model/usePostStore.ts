@@ -1,12 +1,13 @@
 import { create } from "zustand";
+import { PostType } from "../types/postTypes";
 
 
 interface PostsState {
-    selectedPost: any | null;
-    setSelectedPost: (post: any | null) => void;
+    selectedPost: PostType | null;
+    setSelectedPost: (post: PostType) => void;
 }
 
 export const usePostStore = create<PostsState>((set) => ({
     selectedPost: null,
-    setSelectedPost: (post: any | null) => set({ selectedPost: post }),
+    setSelectedPost: (post: PostType) => set({ selectedPost: post }),
 }))

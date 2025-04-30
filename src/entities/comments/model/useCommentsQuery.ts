@@ -24,7 +24,7 @@ export const useAddCommentMutation = () => {
         onSuccess: () => {
             const allUser = queryClient.getQueryData<AllUserResponse>(["allUser"])
 
-            queryClient.setQueryData(["comments", selectedPost.id], (oldData: CommentResponse) => {
+            queryClient.setQueryData(["comments", selectedPost!.id], (oldData: CommentResponse) => {
                 return {
                     ...oldData,
                     comments: [...oldData.comments, {
@@ -49,7 +49,7 @@ export const useUpdateCommentMutation = () => {
             return await updateCommentApi(selectedComment.id, selectedComment.body)
         },
         onSuccess: (updateComment: CommentType) => {
-            queryClient.setQueryData(["comments", selectedPost.id], (oldData: CommentResponse) => {
+            queryClient.setQueryData(["comments", selectedPost!.id], (oldData: CommentResponse) => {
                 return {
                     ...oldData,
                     comments: oldData.comments.map((comment) => comment.id === updateComment.id ? updateComment : comment),

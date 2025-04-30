@@ -15,12 +15,12 @@ const PostDetailDialog = () => {
       <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>
-            <HighlightText text={selectedPost?.title} highlight={searchQuery} />
+            <HighlightText text={selectedPost?.title || ""} highlight={searchQuery} />
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <p>
-            <HighlightText text={selectedPost?.body} highlight={searchQuery} />
+            <HighlightText text={selectedPost?.body || ""} highlight={searchQuery} />
           </p>
           <CommentsSection />
         </div>

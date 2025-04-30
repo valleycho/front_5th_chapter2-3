@@ -15,7 +15,7 @@ const AddCommentDialogButton = () => {
       onClick={async () => {
         await setNewComment({
           body: newComment.body,
-          postId: selectedPost.id,
+          postId: selectedPost!.id,
           userId: 1,
         })
 

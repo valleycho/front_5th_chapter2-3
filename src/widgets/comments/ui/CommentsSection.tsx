@@ -12,7 +12,7 @@ const CommentsSection = () => {
   const { selectedPost } = usePostStore()
   const { searchQuery } = useQueryParamsHook()
 
-  const { data: commentData } = useGetCommentsQuery(selectedPost?.id)
+  const { data: commentData } = useGetCommentsQuery(selectedPost!.id)
 
   return (
     <div className="mt-2">
