@@ -1,6 +1,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { useQueryClient } from "@tanstack/react-query"
+import { postKeys } from "@/entities/posts/model/postKeys"
 
 const SortOrderSelect = () => {
   const queryClient = useQueryClient()
@@ -9,7 +10,7 @@ const SortOrderSelect = () => {
   const handleSortOrderChange = (value: string) => {
     setSortOrder(value)
 
-    queryClient.removeQueries({ queryKey: ["posts"] })
+    queryClient.removeQueries({ queryKey: postKeys.list._def })
   }
 
   return (

@@ -5,7 +5,7 @@ interface PostTagListProps {
 }
 
 const PostTagList = ({ tags }: PostTagListProps) => {
-  const { selectedTag, updateQueryParams } = useQueryParamsHook()
+  const { selectedTag, setSelectedTag, updateQueryParams } = useQueryParamsHook()
 
   return (
     <div className="flex flex-wrap gap-1">
@@ -17,7 +17,11 @@ const PostTagList = ({ tags }: PostTagListProps) => {
               ? "text-white bg-blue-500 hover:bg-blue-600"
               : "text-blue-800 bg-blue-100 hover:bg-blue-200"
           }`}
-          onClick={() => updateQueryParams()}
+          onClick={() => {
+            setSelectedTag(tag)
+
+            updateQueryParams()
+          }}
         >
           {tag}
         </span>

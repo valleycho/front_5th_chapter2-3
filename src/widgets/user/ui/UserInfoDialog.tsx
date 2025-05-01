@@ -1,3 +1,4 @@
+import { useGetUserByIdQuery } from "@/entities/users/model/useUsersQuery"
 import { useUserStore } from "../../../entities/users/model/useUserStore"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../shared/ui/dialog"
@@ -6,13 +7,15 @@ const UserInfoDialog = () => {
   const { showUserInfoDialog, setShowUserInfoDialog } = useDialogStore()
   const { selectedUser } = useUserStore()
 
+  const { data: user } = useGetUserByIdQuery(selectedUser?.id)
+
   return (
     <Dialog open={showUserInfoDialog} onOpenChange={setShowUserInfoDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>사용자 정보</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <img src={selectedUser?.image} alt={selectedUser?.username} className="w-24 h-24 rounded-full mx-auto" />
           <h3 className="text-xl font-semibold text-center">{selectedUser?.username}</h3>
           <div className="space-y-2">
@@ -36,7 +39,7 @@ const UserInfoDialog = () => {
               <strong>직장:</strong> {selectedUser?.company?.name} - {selectedUser?.company?.title}
             </p>
           </div>
-        </div>
+        </div> */}
       </DialogContent>
     </Dialog>
   )

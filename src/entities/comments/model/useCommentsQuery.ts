@@ -1,15 +1,15 @@
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { addCommentApi, deleteCommentApi, getCommentsApi, likeCommentApi, updateCommentApi } from "../api/commentApi"
+import { addCommentApi, deleteCommentApi, likeCommentApi, updateCommentApi } from "../api/commentApi"
 import { useDialogStore } from "../../../shared/model/useDialogStore"
 import { CommentResponse, CommentType, NewComment } from "../types/commentTypes"
 import { usePostStore } from "../../posts/model/usePostStore"
 import { useAddCommentStore } from "../../../features/comments/model/useAddCommentStore"
 import { AllUserResponse } from "../../users/types/userTypes"
+import { commentKeys } from "./commentKeys"
 
 export const useGetCommentsQuery = (postId: number) => {
     return useQuery({
-        queryKey: ["comments", postId],
-        queryFn: async () => await getCommentsApi(postId),
+        ...commentKeys.list(postId)
     })
 }
 
@@ -24,7 +24,7 @@ export const useAddCommentMutation = () => {
         onSuccess: () => {
             const allUser = queryClient.getQueryData<AllUserResponse>(["allUser"])
 
-            queryClient.setQueryData(["comments", selectedPost!.id], (oldData: CommentResponse) => {
+            queryClient.setQueryData(commentKeys.list(selectedPost!.id).queryKey, (oldData: CommentResponse) => {
                 return {
                     ...oldData,
                     comments: [...oldData.comments, {
@@ -49,7 +49,7 @@ export const useUpdateCommentMutation = () => {
             return await updateCommentApi(selectedComment.id, selectedComment.body)
         },
         onSuccess: (updateComment: CommentType) => {
-            queryClient.setQueryData(["comments", selectedPost!.id], (oldData: CommentResponse) => {
+            queryClient.setQueryData(commentKeys.list(selectedPost!.id).queryKey, (oldData: CommentResponse) => {
                 return {
                     ...oldData,
                     comments: oldData.comments.map((comment) => comment.id === updateComment.id ? updateComment : comment),
@@ -67,7 +67,7 @@ export const useLikeCommentMutation = () => {
     return useMutation({
         mutationFn: async (comment: CommentType) => await likeCommentApi(comment),
         onSuccess: (likeComment: CommentType) => {
-            queryClient.setQueryData(["comments", likeComment.postId], (oldData: CommentResponse) => {
+            queryClient.setQueryData(commentKeys.list(likeComment.postId).queryKey, (oldData: CommentResponse) => {
                 return {
                     ...oldData,
                     comments: oldData.comments.map((comment) => comment.id === likeComment.id ? {
@@ -86,7 +86,7 @@ export const useDeleteCommentMutation = () => {
     return useMutation({
         mutationFn: async (comment: CommentType) => await deleteCommentApi(comment),
         onSuccess: (deleteComment: CommentType) => {
-            queryClient.setQueryData(["comments", deleteComment.postId], (oldData: CommentResponse) => {
+            queryClient.setQueryData(commentKeys.list(deleteComment.postId).queryKey, (oldData: CommentResponse) => {
                 return {
                     ...oldData,
                     comments: oldData.comments.filter((comment) => comment.id !== deleteComment.id),
