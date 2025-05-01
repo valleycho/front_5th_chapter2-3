@@ -1,8 +1,9 @@
+import { getMswUrl } from "@/shared/lib/mswUrl";
 import { CommentType, NewComment } from "../types/commentTypes";
 
 
 export const getCommentsApi = async (postId: number) => {
-  const response = await fetch(`/api/comments/post/${postId}`)
+  const response = await fetch(`${getMswUrl}/comments/post/${postId}`)
   
   if (!response.ok) {
     console.error("댓글 가져오기 실패:", response.statusText);
@@ -12,7 +13,7 @@ export const getCommentsApi = async (postId: number) => {
 }
 
 export const addCommentApi = async (comment: NewComment) => {
-  const response = await fetch("/api/comments/add", {
+  const response = await fetch(`${getMswUrl}/comments/add`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(comment),
@@ -26,7 +27,7 @@ export const addCommentApi = async (comment: NewComment) => {
 }
 
 export const updateCommentApi = async (commentId: number, body: string) => {
-  const response = await fetch(`/api/comments/${commentId}`, {
+  const response = await fetch(`${getMswUrl}/comments/${commentId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ body }),
@@ -40,7 +41,7 @@ export const updateCommentApi = async (commentId: number, body: string) => {
 }
 
 export const likeCommentApi = async (comment: CommentType) => {
-  const response = await fetch(`/api/comments/${comment.id}`, {
+  const response = await fetch(`${getMswUrl}/comments/${comment.id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ likes: comment.likes + 1 }),
@@ -58,7 +59,7 @@ export const likeCommentApi = async (comment: CommentType) => {
 }
 
 export const deleteCommentApi = async (comment: CommentType) => {
-  const response = await fetch(`/api/comments/${comment.id}`, {
+  const response = await fetch(`${getMswUrl}/comments/${comment.id}`, {
     method: "DELETE",
   })
 

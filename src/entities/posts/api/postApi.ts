@@ -1,8 +1,9 @@
+import { getMswUrl } from "@/shared/lib/mswUrl"
 import { AddNewPostType, PostResponse, PostType } from "../types/postTypes"
 
 
 export const getPostsApi = async (limit: number, skip: number): Promise<PostResponse> => {
-  const response = await fetch(`/api/posts?limit=${limit}&skip=${skip}`)
+  const response = await fetch(`${getMswUrl}/posts?limit=${limit}&skip=${skip}`)
 
   if (!response.ok) {
     console.error("게시물 가져오기 오류:", response.statusText)
@@ -12,7 +13,7 @@ export const getPostsApi = async (limit: number, skip: number): Promise<PostResp
 }
 
 export const deletePostApi = async (postId: number) => {
-  const response = await fetch(`/api/posts/${postId}`, {
+  const response = await fetch(`${getMswUrl}/posts/${postId}`, {
     method: "DELETE",
   })
 
@@ -27,7 +28,7 @@ export const deletePostApi = async (postId: number) => {
 }
 
 export const addPostApi = async (newPost: AddNewPostType) => {
-  const response = await fetch("/api/posts/add", {
+  const response = await fetch(`${getMswUrl}/posts/add`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newPost),
@@ -41,7 +42,7 @@ export const addPostApi = async (newPost: AddNewPostType) => {
 }
 
 export const updatePostApi = async (postId: number, selectedPost: PostType) => {
-  const response = await fetch(`/api/posts/${postId}`, {
+  const response = await fetch(`${getMswUrl}/posts/${postId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(selectedPost),
