@@ -2,7 +2,7 @@ import { getMswUrl } from "@/shared/lib/mswUrl"
 import { AddNewPostType, PostResponse, PostType } from "../types/postTypes"
 
 
-export const getPostsApi = async (limit: number, skip: number): Promise<PostResponse> => {
+export const getPostsApi = async (limit: string, skip: string): Promise<PostResponse> => {
   const response = await fetch(`${getMswUrl}/posts?limit=${limit}&skip=${skip}`)
 
   if (!response.ok) {
