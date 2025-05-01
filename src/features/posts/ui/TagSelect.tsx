@@ -1,15 +1,22 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
-import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { useGetTagsQuery } from "../../../entities/tags/model/useTagsQuery"
 import { TagType } from "../../../entities/tags/types/tagTypes"
+import { useSearchParams } from "react-router-dom"
 
 const TagSelect = () => {
-  const { selectedTag, setSelectedTag } = useQueryParamsHook()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { data: tags } = useGetTagsQuery()
 
+  const handleTagChange = (value: string) => {
+    setSearchParams((prev) => {
+      prev.set("tag", value)
+      return prev
+    })
+  }
+
   return (
-    <Select value={selectedTag} onValueChange={(value) => setSelectedTag(value)}>
+    <Select value={searchParams.get("tag") || ""} onValueChange={(value) => handleTagChange(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="태그 선택" />
       </SelectTrigger>

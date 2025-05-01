@@ -2,19 +2,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { useQueryClient } from "@tanstack/react-query"
 import { postKeys } from "@/entities/posts/model/postKeys"
+import { useSearchParams } from "react-router-dom"
 
 const SortOrderSelect = () => {
   const queryClient = useQueryClient()
-  const { sortOrder, setSortOrder } = useQueryParamsHook()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleSortOrderChange = (value: string) => {
-    setSortOrder(value)
+    setSearchParams((prev) => {
+      prev.set("sortOrder", value)
+      return prev
+    })
 
     queryClient.removeQueries({ queryKey: postKeys.list._def })
   }
 
   return (
-    <Select value={sortOrder} onValueChange={(value) => handleSortOrderChange(value)}>
+    <Select value={searchParams.get("sortOrder") || "asc"} onValueChange={(value) => handleSortOrderChange(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="정렬 순서" />
       </SelectTrigger>

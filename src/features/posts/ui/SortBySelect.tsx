@@ -1,20 +1,24 @@
 import { useQueryClient } from "@tanstack/react-query"
-import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
 import { postKeys } from "@/entities/posts/model/postKeys"
+import { useSearchParams } from "react-router-dom"
 
 const SortBySelect = () => {
   const queryClient = useQueryClient()
-  const { sortBy, setSortBy } = useQueryParamsHook()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleSortByChange = (value: string) => {
-    setSortBy(value)
+    setSearchParams((prev) => {
+      prev.set("sortBy", value)
+
+      return prev
+    })
 
     queryClient.removeQueries({ queryKey: postKeys.list._def })
   }
 
   return (
-    <Select value={sortBy} onValueChange={(value) => handleSortByChange(value)}>
+    <Select value={searchParams.get("sortBy") || ""} onValueChange={(value) => handleSortByChange(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="정렬 기준" />
       </SelectTrigger>
