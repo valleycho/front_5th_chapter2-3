@@ -6,6 +6,7 @@ import { usePostStore } from "../../posts/model/usePostStore"
 import { useAddCommentStore } from "../../../features/comments/model/useAddCommentStore"
 import { AllUserResponse } from "../../users/types/userTypes"
 import { commentKeys } from "./commentKeys"
+import { queryKeys } from "@/shared/lib/tanstackQueryKeys"
 
 export const useGetCommentsQuery = (postId: number) => {
     return useQuery({
@@ -17,12 +18,12 @@ export const useAddCommentMutation = () => {
     const queryClient = useQueryClient()
     const { setShowAddCommentDialog } = useDialogStore()
     const { selectedPost } = usePostStore()
-    const { newComment } = useAddCommentStore()
+    const { newComment, setNewComment } = useAddCommentStore()
 
     return useMutation({
         mutationFn: async (comment: NewComment) => await addCommentApi(comment),
         onSuccess: () => {
-            const allUser = queryClient.getQueryData<AllUserResponse>(["allUser"])
+            const allUser = queryClient.getQueryData<AllUserResponse>(queryKeys.users.allUser().queryKey)
 
             queryClient.setQueryData(commentKeys.list(selectedPost!.id).queryKey, (oldData: CommentResponse) => {
                 return {
@@ -34,6 +35,10 @@ export const useAddCommentMutation = () => {
                 }
             })
 
+            setNewComment({
+                ...newComment,
+                body: "",
+            })
             setShowAddCommentDialog(false)
         },
     })

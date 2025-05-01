@@ -67,5 +67,8 @@ export const deleteCommentApi = async (comment: CommentType) => {
     console.error("댓글 삭제 오류:", response.statusText)
   }
 
-  return await response.json()
+  // return await response.json()
+  return {
+    ...comment,
+  }
 }
