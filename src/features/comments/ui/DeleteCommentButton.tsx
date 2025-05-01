@@ -7,7 +7,7 @@ interface DeleteCommentProps {
   comment: CommentType
 }
 
-const DeleteComment = ({ comment }: DeleteCommentProps) => {
+const DeleteCommentButton = ({ comment }: DeleteCommentProps) => {
   const { mutate: deleteComment } = useDeleteCommentMutation()
 
   return (
@@ -17,4 +17,4 @@ const DeleteComment = ({ comment }: DeleteCommentProps) => {
   )
 }
 
-export default DeleteComment
+export default DeleteCommentButton

@@ -3,9 +3,9 @@ import { useGetCommentsQuery } from "../../../entities/comments/model/useComment
 import { CommentType } from "../../../entities/comments/types/commentTypes"
 import { usePostStore } from "../../../entities/posts/model/usePostStore"
 import AddCommentDialogButton from "../../../features/comments/ui/AddCommentDialogButton"
-import DeleteComment from "../../../features/comments/ui/DeleteComment"
+import DeleteCommentButton from "../../../features/comments/ui/DeleteCommentButton"
 import EditCommentDialogButton from "../../../features/comments/ui/EditCommentDialogButton"
-import LikeComment from "../../../features/comments/ui/LikeComment"
+import LikeCommentButton from "../../../features/comments/ui/LikeCommentButton"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 const CommentsSection = () => {
@@ -30,9 +30,9 @@ const CommentsSection = () => {
               </span>
             </div>
             <div className="flex items-center space-x-1">
-              <LikeComment comment={comment} />
+              <LikeCommentButton comment={comment} />
               <EditCommentDialogButton comment={comment} />
-              <DeleteComment comment={comment} />
+              <DeleteCommentButton comment={comment} />
             </div>
           </div>
         ))}

@@ -7,7 +7,7 @@ interface LikeCommentProps {
   comment: CommentType
 }
 
-const LikeComment = ({ comment }: LikeCommentProps) => {
+const LikeCommentButton = ({ comment }: LikeCommentProps) => {
   const { mutate: likeComment } = useLikeCommentMutation()
 
   return (
@@ -18,4 +18,4 @@ const LikeComment = ({ comment }: LikeCommentProps) => {
   )
 }
 
-export default LikeComment
+export default LikeCommentButton
