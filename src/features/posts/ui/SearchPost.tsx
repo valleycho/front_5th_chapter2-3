@@ -1,18 +1,16 @@
 import { Search } from "lucide-react"
 import Input from "../../../shared/ui/input"
 import { useSearchParams } from "react-router-dom"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 
 const SearchPost = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [, setSearchParams] = useSearchParams()
   const [, startTransition] = useTransition()
+  const [searchKeyword, setSearchKeyword] = useState("")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     startTransition(() => {
-      setSearchParams((prev) => {
-        prev.set("search", e.target.value)
-        return prev
-      })
+      setSearchKeyword(e.target.value)
     })
   }
 
@@ -32,7 +30,7 @@ const SearchPost = () => {
       <Input
         placeholder="게시물 검색..."
         className="pl-8"
-        value={searchParams.get("search") || ""}
+        value={searchKeyword}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
