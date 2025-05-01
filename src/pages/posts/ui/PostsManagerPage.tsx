@@ -5,10 +5,10 @@ import EditCommentDialog from "../../../features/comments/ui/EditCommentDialog"
 import AddCommentDialog from "../../../features/comments/ui/AddCommentDialog"
 import AddPostDialogButton from "../../../features/posts/ui/AddPostDialogButton"
 import PostTable from "../../../widgets/posts/ui/PostTable"
-import Pagination from "../../../shared/ui/pagination"
 import AddPostDialog from "../../../features/posts/ui/AddPostDialog"
 import EditPostDialog from "../../../features/posts/ui/EditPostDialog"
 import PostFilters from "../../../widgets/posts/ui/PostFilters"
+import Pagination from "@/widgets/pagination/ui/Pagination"
 
 const PostsManager = () => {
   return (

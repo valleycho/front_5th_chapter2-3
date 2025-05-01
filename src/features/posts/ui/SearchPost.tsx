@@ -1,17 +1,28 @@
 import { Search } from "lucide-react"
 import Input from "../../../shared/ui/input"
-import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
+import { useSearchParams } from "react-router-dom"
+import { useTransition } from "react"
 
 const SearchPost = () => {
-  const { searchQuery, setSearchQuery, updateQueryParams } = useQueryParamsHook()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [, startTransition] = useTransition()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
+    startTransition(() => {
+      setSearchParams((prev) => {
+        prev.set("search", e.target.value)
+        return prev
+      })
+    })
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      updateQueryParams()
+      setSearchParams((prev) => {
+        prev.set("search", e.currentTarget.value)
+
+        return prev
+      })
     }
   }
 
@@ -21,7 +32,7 @@ const SearchPost = () => {
       <Input
         placeholder="게시물 검색..."
         className="pl-8"
-        value={searchQuery}
+        value={searchParams.get("search") || ""}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />

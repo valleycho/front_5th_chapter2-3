@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom"
 import { useGetPostsQuery } from "../../../entities/posts/model/usePostsQuery"
 import { useGetAllUsersQuery } from "../../../entities/users/model/useUsersQuery"
 import DeletePostItemButton from "../../../features/posts/ui/DeletePostItemButton"
@@ -6,12 +7,11 @@ import PostAuthor from "../../../features/posts/ui/PostAuthor"
 import PostDetailButton from "../../../features/posts/ui/PostDetailButton"
 import PostTagList from "../../../features/posts/ui/PostTagList"
 import ReactionsPost from "../../../features/posts/ui/ReactionsPost"
-import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../shared/ui/table"
 
 const PostTable = () => {
-  const { searchQuery } = useQueryParamsHook()
+  const [searchParams] = useSearchParams()
 
   const { data: allUser } = useGetAllUsersQuery()
   const { data: postsData, isLoading } = useGetPostsQuery(allUser)
@@ -35,7 +35,7 @@ const PostTable = () => {
               <TableCell>
                 <div className="space-y-1">
                   <div>
-                    <HighlightText text={post.title} highlight={searchQuery} />
+                    <HighlightText text={post.title} highlight={searchParams.get("search") || ""} />
                   </div>
 
                   <PostTagList tags={post.tags} />

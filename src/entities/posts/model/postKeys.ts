@@ -5,8 +5,8 @@ import { createQueryKeys } from "@lukemorales/query-key-factory";
 import { getPostsApi } from "../api/postApi";
 
 interface PostFiltersType {
-   limit: number
-   skip: number
+   limit: string
+   skip: string
    searchQuery: string
    selectedTag: string
 }

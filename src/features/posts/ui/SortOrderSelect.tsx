@@ -1,5 +1,4 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../shared/ui/select"
-import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import { useQueryClient } from "@tanstack/react-query"
 import { postKeys } from "@/entities/posts/model/postKeys"
 import { useSearchParams } from "react-router-dom"

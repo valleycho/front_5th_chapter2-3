@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom"
 import { useGetCommentsQuery } from "../../../entities/comments/model/useCommentsQuery"
 import { CommentType } from "../../../entities/comments/types/commentTypes"
 import { usePostStore } from "../../../entities/posts/model/usePostStore"
@@ -5,12 +6,11 @@ import AddCommentDialogButton from "../../../features/comments/ui/AddCommentDial
 import DeleteComment from "../../../features/comments/ui/DeleteComment"
 import EditCommentDialogButton from "../../../features/comments/ui/EditCommentDialogButton"
 import LikeComment from "../../../features/comments/ui/LikeComment"
-import { useQueryParamsHook } from "../../../shared/lib/useQueryParamsHook"
 import HighlightText from "../../../shared/ui/highlight/HighLightText"
 
 const CommentsSection = () => {
   const { selectedPost } = usePostStore()
-  const { searchQuery } = useQueryParamsHook()
+  const [searchParams] = useSearchParams()
 
   const { data: commentData } = useGetCommentsQuery(selectedPost!.id)
 
@@ -26,7 +26,7 @@ const CommentsSection = () => {
             <div className="flex items-center space-x-2 overflow-hidden">
               <span className="font-medium truncate">{comment?.user?.username}:</span>
               <span className="truncate">
-                <HighlightText text={comment.body} highlight={searchQuery} />
+                <HighlightText text={comment.body} highlight={searchParams.get("search") || ""} />
               </span>
             </div>
             <div className="flex items-center space-x-1">
